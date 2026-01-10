@@ -100,65 +100,55 @@ const AmortizationChart = ({
 
   return (
     <section className="chart-container" aria-labelledby="amortization-chart-heading">
-      <h3 id="amortization-chart-heading" className="text-lg font-semibold mb-4">
+      <h3 id="amortization-chart-heading" className="text-lg font-semibold mb-2">
         Amortization Chart
       </h3>
-      <p className="text-sm text-muted-foreground mb-6">
-        Visualize how your payments and balance change over the life of the loan
+      <p className="text-xs sm:text-sm text-muted-foreground mb-4">
+        Visualize how your payments and balance change over time
       </p>
 
       <div
-        className="h-[400px] sm:h-[450px]"
+        className="h-[280px] sm:h-[400px]"
         role="img"
         aria-label="Stacked area chart showing yearly principal, interest, taxes and fees with balance line"
       >
         <ResponsiveContainer width="100%" height="100%">
           <ComposedChart
             data={yearlyData}
-            margin={{ top: 20, right: 30, left: 20, bottom: 20 }}
+            margin={{ top: 10, right: 10, left: -10, bottom: 10 }}
           >
             <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
             <XAxis
               dataKey="year"
-              tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12 }}
+              tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 10 }}
               tickLine={{ stroke: "hsl(var(--border))" }}
               axisLine={{ stroke: "hsl(var(--border))" }}
+              interval="preserveStartEnd"
             />
             <YAxis
               yAxisId="left"
               tickFormatter={formatYAxisCurrency}
-              tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12 }}
+              tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 10 }}
               tickLine={{ stroke: "hsl(var(--border))" }}
               axisLine={{ stroke: "hsl(var(--border))" }}
-              label={{
-                value: "Payments",
-                angle: -90,
-                position: "insideLeft",
-                fill: "hsl(var(--muted-foreground))",
-                fontSize: 12,
-              }}
+              width={45}
             />
             <YAxis
               yAxisId="right"
               orientation="right"
               tickFormatter={formatYAxisCurrency}
-              tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 12 }}
+              tick={{ fill: "hsl(var(--muted-foreground))", fontSize: 10 }}
               tickLine={{ stroke: "hsl(var(--border))" }}
               axisLine={{ stroke: "hsl(var(--border))" }}
-              label={{
-                value: "Balance",
-                angle: 90,
-                position: "insideRight",
-                fill: "hsl(var(--muted-foreground))",
-                fontSize: 12,
-              }}
+              width={45}
             />
             <Tooltip content={<CustomTooltip />} />
             <Legend
               verticalAlign="top"
-              height={36}
+              height={40}
+              wrapperStyle={{ fontSize: "11px", paddingBottom: "8px" }}
               formatter={(value: string) => (
-                <span className="text-sm text-foreground">{value}</span>
+                <span className="text-xs sm:text-sm text-foreground">{value}</span>
               )}
             />
             <Area
@@ -198,36 +188,36 @@ const AmortizationChart = ({
               name="Balance"
               stroke="hsl(var(--foreground))"
               strokeWidth={2}
-              dot={{ fill: "hsl(var(--foreground))", r: 3 }}
-              activeDot={{ r: 5, fill: "hsl(var(--primary))" }}
+              dot={false}
+              activeDot={{ r: 4, fill: "hsl(var(--primary))" }}
             />
           </ComposedChart>
         </ResponsiveContainer>
       </div>
 
       {/* Summary stats */}
-      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mt-6">
-        <div className="p-3 rounded-lg bg-secondary/50 text-center">
-          <p className="text-xs text-muted-foreground">Total Principal</p>
-          <p className="font-semibold text-sm">
+      <div className="grid grid-cols-2 gap-2 sm:grid-cols-4 sm:gap-4 mt-4">
+        <div className="p-2 sm:p-3 rounded-lg bg-secondary/50 text-center">
+          <p className="text-[10px] sm:text-xs text-muted-foreground">Total Principal</p>
+          <p className="font-semibold text-xs sm:text-sm">
             {formatCurrency(yearlyData.reduce((sum, y) => sum + y.principal, 0))}
           </p>
         </div>
-        <div className="p-3 rounded-lg bg-secondary/50 text-center">
-          <p className="text-xs text-muted-foreground">Total Interest</p>
-          <p className="font-semibold text-sm">
+        <div className="p-2 sm:p-3 rounded-lg bg-secondary/50 text-center">
+          <p className="text-[10px] sm:text-xs text-muted-foreground">Total Interest</p>
+          <p className="font-semibold text-xs sm:text-sm">
             {formatCurrency(yearlyData.reduce((sum, y) => sum + y.interest, 0))}
           </p>
         </div>
-        <div className="p-3 rounded-lg bg-secondary/50 text-center">
-          <p className="text-xs text-muted-foreground">Total Taxes & Fees</p>
-          <p className="font-semibold text-sm">
+        <div className="p-2 sm:p-3 rounded-lg bg-secondary/50 text-center">
+          <p className="text-[10px] sm:text-xs text-muted-foreground">Taxes & Fees</p>
+          <p className="font-semibold text-xs sm:text-sm">
             {formatCurrency(yearlyData.reduce((sum, y) => sum + y.taxesAndFees, 0))}
           </p>
         </div>
-        <div className="p-3 rounded-lg bg-secondary/50 text-center">
-          <p className="text-xs text-muted-foreground">Total Paid</p>
-          <p className="font-semibold text-sm">
+        <div className="p-2 sm:p-3 rounded-lg bg-secondary/50 text-center">
+          <p className="text-[10px] sm:text-xs text-muted-foreground">Total Paid</p>
+          <p className="font-semibold text-xs sm:text-sm">
             {formatCurrency(yearlyData.reduce((sum, y) => sum + y.totalPayment, 0))}
           </p>
         </div>
