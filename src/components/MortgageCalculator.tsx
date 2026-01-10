@@ -133,9 +133,9 @@ const MortgageCalculator = () => {
               Loan Details
             </h2>
 
-            <div className="grid gap-2 sm:gap-4 grid-cols-2">
+            <div className="grid gap-2 sm:gap-4 grid-cols-1 sm:grid-cols-2">
               {/* Home Price */}
-              <div className="flex items-center gap-2 col-span-2 sm:col-span-1">
+              <div className="flex items-center gap-2">
                 <Label htmlFor="home-price" className="text-xs sm:text-sm text-muted-foreground whitespace-nowrap flex items-center gap-1 min-w-[80px] sm:min-w-[100px]">
                   <DollarSign className="h-3 w-3 sm:h-4 sm:w-4" aria-hidden="true" />
                   <span className="hidden sm:inline">Home Price</span>
@@ -154,7 +154,7 @@ const MortgageCalculator = () => {
               </div>
 
               {/* Down Payment */}
-              <div className="flex items-center gap-2 col-span-2 sm:col-span-1">
+              <div className="flex items-center gap-2">
                 <Label htmlFor="down-payment" className="text-xs sm:text-sm text-muted-foreground whitespace-nowrap flex items-center gap-1 min-w-[80px] sm:min-w-[100px]">
                   <Percent className="h-3 w-3 sm:h-4 sm:w-4" aria-hidden="true" />
                   <span className="hidden sm:inline">Down Payment</span>
@@ -225,7 +225,7 @@ const MortgageCalculator = () => {
               </div>
 
               {/* Start Date */}
-              <div className="flex items-center gap-2 col-span-2">
+              <div className="flex items-center gap-2">
                 <Label className="text-xs sm:text-sm text-muted-foreground whitespace-nowrap flex items-center gap-1 min-w-[80px] sm:min-w-[100px]">
                   <Calendar className="h-3 w-3 sm:h-4 sm:w-4" aria-hidden="true" />
                   <span className="hidden sm:inline">Start Date</span>
@@ -288,7 +288,7 @@ const MortgageCalculator = () => {
               Additional Costs
             </h2>
 
-            <div className="grid gap-2 sm:gap-4 grid-cols-2">
+            <div className="grid gap-2 sm:gap-4 grid-cols-1 sm:grid-cols-2">
               {/* Property Tax */}
               <div className="flex items-center gap-2">
                 <Label htmlFor="property-tax" className="text-xs sm:text-sm text-muted-foreground whitespace-nowrap flex items-center gap-1 min-w-[80px] sm:min-w-[100px]">
