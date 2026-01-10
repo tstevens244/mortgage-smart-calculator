@@ -226,18 +226,59 @@ const MortgageCalculator = () => {
 
               {/* Start Date */}
               <div className="flex items-center gap-2 col-span-2">
-                <Label htmlFor="start-date" className="text-xs sm:text-sm text-muted-foreground whitespace-nowrap flex items-center gap-1 min-w-[80px] sm:min-w-[100px]">
+                <Label className="text-xs sm:text-sm text-muted-foreground whitespace-nowrap flex items-center gap-1 min-w-[80px] sm:min-w-[100px]">
                   <Calendar className="h-3 w-3 sm:h-4 sm:w-4" aria-hidden="true" />
                   <span className="hidden sm:inline">Start Date</span>
                   <span className="sm:hidden">Start</span>
                 </Label>
-                <Input
-                  id="start-date"
-                  type="month"
-                  value={inputs.startDate}
-                  onChange={(e) => updateInput("startDate", e.target.value)}
-                  className="h-8 sm:h-10 text-sm sm:text-base flex-1 sm:flex-none sm:w-auto"
-                />
+                <div className="flex gap-1 sm:gap-2 flex-1">
+                  <Select
+                    value={inputs.startDate.split("-")[1]}
+                    onValueChange={(month) => {
+                      const year = inputs.startDate.split("-")[0];
+                      updateInput("startDate", `${year}-${month}`);
+                    }}
+                  >
+                    <SelectTrigger className="h-8 sm:h-10 text-xs sm:text-sm flex-1">
+                      <SelectValue placeholder="Month" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      <SelectItem value="01">January</SelectItem>
+                      <SelectItem value="02">February</SelectItem>
+                      <SelectItem value="03">March</SelectItem>
+                      <SelectItem value="04">April</SelectItem>
+                      <SelectItem value="05">May</SelectItem>
+                      <SelectItem value="06">June</SelectItem>
+                      <SelectItem value="07">July</SelectItem>
+                      <SelectItem value="08">August</SelectItem>
+                      <SelectItem value="09">September</SelectItem>
+                      <SelectItem value="10">October</SelectItem>
+                      <SelectItem value="11">November</SelectItem>
+                      <SelectItem value="12">December</SelectItem>
+                    </SelectContent>
+                  </Select>
+                  <Select
+                    value={inputs.startDate.split("-")[0]}
+                    onValueChange={(year) => {
+                      const month = inputs.startDate.split("-")[1];
+                      updateInput("startDate", `${year}-${month}`);
+                    }}
+                  >
+                    <SelectTrigger className="h-8 sm:h-10 text-xs sm:text-sm w-20 sm:w-24">
+                      <SelectValue placeholder="Year" />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {Array.from({ length: 30 }, (_, i) => {
+                        const year = new Date().getFullYear() + i;
+                        return (
+                          <SelectItem key={year} value={year.toString()}>
+                            {year}
+                          </SelectItem>
+                        );
+                      })}
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
             </div>
 
