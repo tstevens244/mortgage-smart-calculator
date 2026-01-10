@@ -6,6 +6,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import PaymentBreakdown from "./PaymentBreakdown";
 import AmortizationSchedule from "./AmortizationSchedule";
+import AmortizationChart from "./AmortizationChart";
 import { formatCurrency, formatNumber, parseNumber } from "@/lib/formatters";
 
 interface MortgageInputs {
@@ -366,6 +367,7 @@ const MortgageCalculator = () => {
         <Tabs defaultValue="breakdown" className="w-full">
           <TabsList className="mb-6">
             <TabsTrigger value="breakdown">Payment Breakdown</TabsTrigger>
+            <TabsTrigger value="chart">Amortization Chart</TabsTrigger>
             <TabsTrigger value="schedule">Amortization Schedule</TabsTrigger>
           </TabsList>
 
@@ -377,6 +379,16 @@ const MortgageCalculator = () => {
               insurance={calculations.monthlyInsurance}
               pmi={calculations.monthlyPMI}
               hoa={calculations.monthlyHOA}
+            />
+          </TabsContent>
+
+          <TabsContent value="chart">
+            <AmortizationChart
+              data={amortizationData}
+              monthlyTax={calculations.monthlyTax}
+              monthlyInsurance={calculations.monthlyInsurance}
+              monthlyPMI={calculations.monthlyPMI}
+              monthlyHOA={calculations.monthlyHOA}
             />
           </TabsContent>
 
