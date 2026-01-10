@@ -126,18 +126,20 @@ const MortgageCalculator = () => {
     <div className="fade-in">
       <div className="grid gap-8 lg:grid-cols-3">
         {/* Input Section */}
-        <div className="lg:col-span-2 space-y-6">
-          <section className="calculator-card p-6" aria-labelledby="loan-details-heading">
-            <h2 id="loan-details-heading" className="text-xl font-display font-semibold mb-6 flex items-center gap-2">
-              <Home className="h-5 w-5 text-accent" aria-hidden="true" />
+        <div className="lg:col-span-2">
+          <section className="calculator-card p-3 sm:p-6" aria-labelledby="loan-details-heading">
+            <h2 id="loan-details-heading" className="text-base sm:text-xl font-display font-semibold mb-3 sm:mb-6 flex items-center gap-2">
+              <Home className="h-4 w-4 sm:h-5 sm:w-5 text-accent" aria-hidden="true" />
               Loan Details
             </h2>
 
-            <div className="grid gap-6 sm:grid-cols-2">
-              <div className="input-group">
-                <Label htmlFor="home-price" className="input-label">
-                  <DollarSign className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
-                  Home Price
+            <div className="grid gap-2 sm:gap-4 grid-cols-2">
+              {/* Home Price */}
+              <div className="flex items-center gap-2 col-span-2 sm:col-span-1">
+                <Label htmlFor="home-price" className="text-xs sm:text-sm text-muted-foreground whitespace-nowrap flex items-center gap-1 min-w-[80px] sm:min-w-[100px]">
+                  <DollarSign className="h-3 w-3 sm:h-4 sm:w-4" aria-hidden="true" />
+                  <span className="hidden sm:inline">Home Price</span>
+                  <span className="sm:hidden">Price</span>
                 </Label>
                 <Input
                   id="home-price"
@@ -145,48 +147,52 @@ const MortgageCalculator = () => {
                   inputMode="numeric"
                   value={formatNumber(inputs.homePrice)}
                   onChange={(e) => updateInput("homePrice", parseNumber(e.target.value))}
-                  className="text-lg font-medium"
+                  className="h-8 sm:h-10 text-sm sm:text-lg font-medium flex-1"
                   aria-describedby="home-price-desc"
                 />
                 <span id="home-price-desc" className="sr-only">Enter the total price of the home</span>
               </div>
 
-              <div className="input-group">
-                <Label htmlFor="down-payment" className="input-label">
-                  <Percent className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
-                  Down Payment
+              {/* Down Payment */}
+              <div className="flex items-center gap-2 col-span-2 sm:col-span-1">
+                <Label htmlFor="down-payment" className="text-xs sm:text-sm text-muted-foreground whitespace-nowrap flex items-center gap-1 min-w-[80px] sm:min-w-[100px]">
+                  <Percent className="h-3 w-3 sm:h-4 sm:w-4" aria-hidden="true" />
+                  <span className="hidden sm:inline">Down Payment</span>
+                  <span className="sm:hidden">Down</span>
                 </Label>
-                <div className="flex gap-2">
+                <div className="flex gap-1 sm:gap-2 flex-1">
                   <Input
                     id="down-payment"
                     type="text"
                     inputMode="numeric"
                     value={formatNumber(inputs.downPayment)}
                     onChange={(e) => updateInput("downPayment", parseNumber(e.target.value))}
-                    className="flex-1 text-lg font-medium"
+                    className="h-8 sm:h-10 text-sm sm:text-lg font-medium flex-1"
                   />
                   <Input
                     type="text"
                     inputMode="decimal"
                     value={inputs.downPaymentPercent.toFixed(1)}
                     onChange={(e) => updateInput("downPaymentPercent", parseFloat(e.target.value) || 0)}
-                    className="w-20 text-center"
+                    className="h-8 sm:h-10 w-12 sm:w-16 text-center text-xs sm:text-sm"
                     aria-label="Down payment percentage"
                   />
-                  <span className="flex items-center text-muted-foreground">%</span>
+                  <span className="flex items-center text-muted-foreground text-xs sm:text-sm">%</span>
                 </div>
               </div>
 
-              <div className="input-group">
-                <Label htmlFor="loan-term" className="input-label">
-                  <Calendar className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
-                  Loan Term
+              {/* Loan Term */}
+              <div className="flex items-center gap-2">
+                <Label htmlFor="loan-term" className="text-xs sm:text-sm text-muted-foreground whitespace-nowrap flex items-center gap-1 min-w-[80px] sm:min-w-[100px]">
+                  <Calendar className="h-3 w-3 sm:h-4 sm:w-4" aria-hidden="true" />
+                  <span className="hidden sm:inline">Loan Term</span>
+                  <span className="sm:hidden">Term</span>
                 </Label>
                 <Select
                   value={inputs.loanTerm.toString()}
                   onValueChange={(v) => updateInput("loanTerm", parseInt(v))}
                 >
-                  <SelectTrigger id="loan-term" className="text-lg font-medium">
+                  <SelectTrigger id="loan-term" className="h-8 sm:h-10 text-sm sm:text-lg font-medium flex-1">
                     <SelectValue />
                   </SelectTrigger>
                   <SelectContent>
@@ -198,51 +204,56 @@ const MortgageCalculator = () => {
                 </Select>
               </div>
 
-              <div className="input-group">
-                <Label htmlFor="interest-rate" className="input-label">
-                  <Percent className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
-                  Interest Rate
+              {/* Interest Rate */}
+              <div className="flex items-center gap-2">
+                <Label htmlFor="interest-rate" className="text-xs sm:text-sm text-muted-foreground whitespace-nowrap flex items-center gap-1 min-w-[80px] sm:min-w-[100px]">
+                  <Percent className="h-3 w-3 sm:h-4 sm:w-4" aria-hidden="true" />
+                  <span className="hidden sm:inline">Interest Rate</span>
+                  <span className="sm:hidden">Rate</span>
                 </Label>
-                <div className="flex gap-2">
+                <div className="flex gap-1 sm:gap-2 flex-1">
                   <Input
                     id="interest-rate"
                     type="text"
                     inputMode="decimal"
                     value={inputs.interestRate}
                     onChange={(e) => updateInput("interestRate", parseFloat(e.target.value) || 0)}
-                    className="text-lg font-medium"
+                    className="h-8 sm:h-10 text-sm sm:text-lg font-medium flex-1"
                   />
-                  <span className="flex items-center text-muted-foreground">%</span>
+                  <span className="flex items-center text-muted-foreground text-xs sm:text-sm">%</span>
                 </div>
               </div>
 
-              <div className="input-group sm:col-span-2">
-                <Label htmlFor="start-date" className="input-label">
-                  <Calendar className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
-                  Loan Start Date
+              {/* Start Date */}
+              <div className="flex items-center gap-2 col-span-2">
+                <Label htmlFor="start-date" className="text-xs sm:text-sm text-muted-foreground whitespace-nowrap flex items-center gap-1 min-w-[80px] sm:min-w-[100px]">
+                  <Calendar className="h-3 w-3 sm:h-4 sm:w-4" aria-hidden="true" />
+                  <span className="hidden sm:inline">Start Date</span>
+                  <span className="sm:hidden">Start</span>
                 </Label>
                 <Input
                   id="start-date"
                   type="month"
                   value={inputs.startDate}
                   onChange={(e) => updateInput("startDate", e.target.value)}
-                  className="w-full sm:w-auto"
+                  className="h-8 sm:h-10 text-sm sm:text-base flex-1 sm:flex-none sm:w-auto"
                 />
               </div>
             </div>
-          </section>
 
-          <section className="calculator-card p-6" aria-labelledby="additional-costs-heading">
-            <h2 id="additional-costs-heading" className="text-xl font-display font-semibold mb-6 flex items-center gap-2">
-              <Shield className="h-5 w-5 text-accent" aria-hidden="true" />
+            {/* Additional Costs Section */}
+            <h2 id="additional-costs-heading" className="text-base sm:text-xl font-display font-semibold mt-4 sm:mt-6 mb-3 sm:mb-6 flex items-center gap-2">
+              <Shield className="h-4 w-4 sm:h-5 sm:w-5 text-accent" aria-hidden="true" />
               Additional Costs
             </h2>
 
-            <div className="grid gap-6 sm:grid-cols-2">
-              <div className="input-group">
-                <Label htmlFor="property-tax" className="input-label">
-                  <Building className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
-                  Property Tax (yearly)
+            <div className="grid gap-2 sm:gap-4 grid-cols-2">
+              {/* Property Tax */}
+              <div className="flex items-center gap-2">
+                <Label htmlFor="property-tax" className="text-xs sm:text-sm text-muted-foreground whitespace-nowrap flex items-center gap-1 min-w-[80px] sm:min-w-[100px]">
+                  <Building className="h-3 w-3 sm:h-4 sm:w-4" aria-hidden="true" />
+                  <span className="hidden sm:inline">Property Tax</span>
+                  <span className="sm:hidden">Tax</span>
                 </Label>
                 <Input
                   id="property-tax"
@@ -250,14 +261,16 @@ const MortgageCalculator = () => {
                   inputMode="numeric"
                   value={formatNumber(inputs.propertyTax)}
                   onChange={(e) => updateInput("propertyTax", parseNumber(e.target.value))}
-                  className="text-lg font-medium"
+                  className="h-8 sm:h-10 text-sm sm:text-lg font-medium flex-1"
                 />
               </div>
 
-              <div className="input-group">
-                <Label htmlFor="home-insurance" className="input-label">
-                  <Shield className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
-                  Home Insurance (yearly)
+              {/* Home Insurance */}
+              <div className="flex items-center gap-2">
+                <Label htmlFor="home-insurance" className="text-xs sm:text-sm text-muted-foreground whitespace-nowrap flex items-center gap-1 min-w-[80px] sm:min-w-[100px]">
+                  <Shield className="h-3 w-3 sm:h-4 sm:w-4" aria-hidden="true" />
+                  <span className="hidden sm:inline">Insurance</span>
+                  <span className="sm:hidden">Ins.</span>
                 </Label>
                 <Input
                   id="home-insurance"
@@ -265,16 +278,17 @@ const MortgageCalculator = () => {
                   inputMode="numeric"
                   value={formatNumber(inputs.homeInsurance)}
                   onChange={(e) => updateInput("homeInsurance", parseNumber(e.target.value))}
-                  className="text-lg font-medium"
+                  className="h-8 sm:h-10 text-sm sm:text-lg font-medium flex-1"
                 />
               </div>
 
-              <div className="input-group">
-                <Label htmlFor="pmi" className="input-label">
-                  <Percent className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
-                  PMI (yearly)
+              {/* PMI */}
+              <div className="flex items-center gap-2">
+                <Label htmlFor="pmi" className="text-xs sm:text-sm text-muted-foreground whitespace-nowrap flex items-center gap-1 min-w-[80px] sm:min-w-[100px]">
+                  <Percent className="h-3 w-3 sm:h-4 sm:w-4" aria-hidden="true" />
+                  PMI
                   {inputs.downPaymentPercent < 20 && (
-                    <span className="text-xs text-accent ml-auto">Auto-calculated</span>
+                    <span className="text-[10px] sm:text-xs text-accent ml-1">Auto</span>
                   )}
                 </Label>
                 <Input
@@ -283,14 +297,15 @@ const MortgageCalculator = () => {
                   inputMode="numeric"
                   value={formatNumber(Math.round(inputs.pmi))}
                   onChange={(e) => updateInput("pmi", parseNumber(e.target.value))}
-                  className="text-lg font-medium"
+                  className="h-8 sm:h-10 text-sm sm:text-lg font-medium flex-1"
                 />
               </div>
 
-              <div className="input-group">
-                <Label htmlFor="hoa-fees" className="input-label">
-                  <Users className="h-4 w-4 text-muted-foreground" aria-hidden="true" />
-                  HOA Fees (monthly)
+              {/* HOA Fees */}
+              <div className="flex items-center gap-2">
+                <Label htmlFor="hoa-fees" className="text-xs sm:text-sm text-muted-foreground whitespace-nowrap flex items-center gap-1 min-w-[80px] sm:min-w-[100px]">
+                  <Users className="h-3 w-3 sm:h-4 sm:w-4" aria-hidden="true" />
+                  HOA
                 </Label>
                 <Input
                   id="hoa-fees"
@@ -298,7 +313,7 @@ const MortgageCalculator = () => {
                   inputMode="numeric"
                   value={formatNumber(inputs.hoaFees)}
                   onChange={(e) => updateInput("hoaFees", parseNumber(e.target.value))}
-                  className="text-lg font-medium"
+                  className="h-8 sm:h-10 text-sm sm:text-lg font-medium flex-1"
                 />
               </div>
             </div>
