@@ -365,10 +365,19 @@ const MortgageCalculator = () => {
       {/* Charts and Schedule */}
       <div className="mt-8">
         <Tabs defaultValue="breakdown" className="w-full">
-          <TabsList className="mb-6">
-            <TabsTrigger value="breakdown">Payment Breakdown</TabsTrigger>
-            <TabsTrigger value="chart">Amortization Chart</TabsTrigger>
-            <TabsTrigger value="schedule">Amortization Schedule</TabsTrigger>
+          <TabsList className="mb-6 w-full flex justify-start overflow-x-auto">
+            <TabsTrigger value="breakdown" className="flex-shrink-0 text-xs sm:text-sm px-2 sm:px-3">
+              <span className="hidden sm:inline">Payment Breakdown</span>
+              <span className="sm:hidden">Breakdown</span>
+            </TabsTrigger>
+            <TabsTrigger value="chart" className="flex-shrink-0 text-xs sm:text-sm px-2 sm:px-3">
+              <span className="hidden sm:inline">Amortization Chart</span>
+              <span className="sm:hidden">Chart</span>
+            </TabsTrigger>
+            <TabsTrigger value="schedule" className="flex-shrink-0 text-xs sm:text-sm px-2 sm:px-3">
+              <span className="hidden sm:inline">Amortization Schedule</span>
+              <span className="sm:hidden">Schedule</span>
+            </TabsTrigger>
           </TabsList>
 
           <TabsContent value="breakdown">
