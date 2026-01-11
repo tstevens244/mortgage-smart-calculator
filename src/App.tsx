@@ -10,6 +10,7 @@ import Heloc from "./pages/Heloc";
 import Refinance from "./pages/Refinance";
 import CashOutRefi from "./pages/CashOutRefi";
 import Affordability from "./pages/Affordability";
+import Qualification from "./pages/Qualification";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -28,6 +29,7 @@ const App = () => (
             <Route path="/refinance" element={<Refinance />} />
             <Route path="/cash-out-refinance" element={<CashOutRefi />} />
             <Route path="/affordability" element={<Affordability />} />
+            <Route path="/qualification" element={<Qualification />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
