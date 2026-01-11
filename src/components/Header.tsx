@@ -25,7 +25,7 @@ const navItems = [
     subItems: [
       { label: "Mortgage Calculator", href: "/" },
       { label: "Second Mortgage", href: "/second-mortgage" },
-      { label: "HELOC", href: "/" },
+      { label: "HELOC", href: "/heloc" },
     ],
   },
   {
