@@ -7,6 +7,7 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import Index from "./pages/Index";
 import SecondMortgage from "./pages/SecondMortgage";
 import Heloc from "./pages/Heloc";
+import Refinance from "./pages/Refinance";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -22,6 +23,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/second-mortgage" element={<SecondMortgage />} />
             <Route path="/heloc" element={<Heloc />} />
+            <Route path="/refinance" element={<Refinance />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
