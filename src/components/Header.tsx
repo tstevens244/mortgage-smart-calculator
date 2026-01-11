@@ -33,7 +33,7 @@ const navItems = [
     href: "/refinance",
     subItems: [
       { label: "Refi Calculator", href: "/refinance" },
-      { label: "Cash-Out Refi", href: "/refinance" },
+      { label: "Cash-Out Refi", href: "/cash-out-refinance" },
     ],
   },
   {

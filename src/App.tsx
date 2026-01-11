@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import SecondMortgage from "./pages/SecondMortgage";
 import Heloc from "./pages/Heloc";
 import Refinance from "./pages/Refinance";
+import CashOutRefi from "./pages/CashOutRefi";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -24,6 +25,7 @@ const App = () => (
             <Route path="/second-mortgage" element={<SecondMortgage />} />
             <Route path="/heloc" element={<Heloc />} />
             <Route path="/refinance" element={<Refinance />} />
+            <Route path="/cash-out-refinance" element={<CashOutRefi />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

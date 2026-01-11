@@ -14,3 +14,7 @@ export const formatNumber = (value: number): string => {
 export const parseNumber = (value: string): number => {
   return parseInt(value.replace(/[^0-9]/g, ""), 10) || 0;
 };
+
+export const formatPercent = (value: number): string => {
+  return `${value.toFixed(1)}%`;
+};
