@@ -23,7 +23,7 @@ const navItems = [
     label: "Mortgage",
     href: "/",
     subItems: [
-      { label: "Second Mortgage", href: "/" },
+      { label: "Second Mortgage", href: "/second-mortgage" },
       { label: "HELOC", href: "/" },
     ],
   },
