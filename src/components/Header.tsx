@@ -8,12 +8,54 @@ import {
   SheetTrigger,
 } from "@/components/ui/sheet";
 import { Button } from "@/components/ui/button";
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+} from "@/components/ui/navigation-menu";
+import { cn } from "@/lib/utils";
 
 const navItems = [
-  { label: "Mortgage", href: "/" },
-  { label: "Refinance", href: "/refinance" },
-  { label: "Affordability", href: "/affordability" },
-  { label: "Save Money", href: "/save-money" },
+  {
+    label: "Mortgage",
+    href: "/",
+    subItems: [
+      { label: "30yr Fixed", href: "/" },
+      { label: "20yr Fixed", href: "/" },
+      { label: "15yr Fixed", href: "/" },
+      { label: "10yr Fixed", href: "/" },
+      { label: "Second Mortgage", href: "/" },
+      { label: "HELOC", href: "/" },
+    ],
+  },
+  {
+    label: "Refinance",
+    href: "/refinance",
+    subItems: [
+      { label: "Refi Calculator", href: "/refinance" },
+      { label: "Cash-Out Refi", href: "/refinance" },
+    ],
+  },
+  {
+    label: "Affordability",
+    href: "/affordability",
+    subItems: [
+      { label: "Mortgage Affordability", href: "/affordability" },
+      { label: "Mortgage Qualification", href: "/affordability" },
+      { label: "Rent or Buy", href: "/affordability" },
+    ],
+  },
+  {
+    label: "Save Money",
+    href: "/save-money",
+    subItems: [
+      { label: "Extra Payments", href: "/save-money" },
+      { label: "Bi Weekly Payments", href: "/save-money" },
+    ],
+  },
 ];
 
 const Header = () => {
@@ -30,18 +72,36 @@ const Header = () => {
           </Link>
 
           {/* Desktop Navigation */}
-          <ul className="hidden md:flex items-center gap-6" role="list">
-            {navItems.map((item) => (
-              <li key={item.label}>
-                <Link
-                  to={item.href}
-                  className="text-sm font-medium text-muted-foreground hover:text-foreground transition-colors"
-                >
-                  {item.label}
-                </Link>
-              </li>
-            ))}
-          </ul>
+          <NavigationMenu className="hidden md:flex">
+            <NavigationMenuList>
+              {navItems.map((item) => (
+                <NavigationMenuItem key={item.label}>
+                  <NavigationMenuTrigger className="text-sm font-medium text-muted-foreground hover:text-foreground bg-transparent">
+                    {item.label}
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    <ul className="grid w-48 gap-1 p-2">
+                      {item.subItems.map((subItem) => (
+                        <li key={subItem.label}>
+                          <NavigationMenuLink asChild>
+                            <Link
+                              to={subItem.href}
+                              className={cn(
+                                "block select-none rounded-md px-3 py-2 text-sm leading-none no-underline outline-none transition-colors",
+                                "hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground"
+                              )}
+                            >
+                              {subItem.label}
+                            </Link>
+                          </NavigationMenuLink>
+                        </li>
+                      ))}
+                    </ul>
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+              ))}
+            </NavigationMenuList>
+          </NavigationMenu>
 
           {/* Mobile Hamburger Menu */}
           <Sheet>
@@ -61,12 +121,21 @@ const Header = () => {
                 <ul className="flex flex-col gap-4" role="list">
                   {navItems.map((item) => (
                     <li key={item.label}>
-                      <Link
-                        to={item.href}
-                        className="block py-2 text-base font-medium text-foreground hover:text-primary transition-colors"
-                      >
+                      <span className="block py-2 text-base font-medium text-foreground">
                         {item.label}
-                      </Link>
+                      </span>
+                      <ul className="ml-4 flex flex-col gap-2">
+                        {item.subItems.map((subItem) => (
+                          <li key={subItem.label}>
+                            <Link
+                              to={subItem.href}
+                              className="block py-1 text-sm text-muted-foreground hover:text-primary transition-colors"
+                            >
+                              {subItem.label}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
                     </li>
                   ))}
                 </ul>
