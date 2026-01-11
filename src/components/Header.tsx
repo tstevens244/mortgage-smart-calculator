@@ -47,10 +47,10 @@ const navItems = [
   },
   {
     label: "Save Money",
-    href: "/save-money",
+    href: "/extra-payments",
     subItems: [
-      { label: "Extra Payments", href: "/save-money" },
-      { label: "Bi Weekly Payments", href: "/save-money" },
+      { label: "Extra Payments", href: "/extra-payments" },
+      { label: "Bi Weekly Payments", href: "/extra-payments" },
     ],
   },
 ];

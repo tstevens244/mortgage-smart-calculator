@@ -12,6 +12,7 @@ import CashOutRefi from "./pages/CashOutRefi";
 import Affordability from "./pages/Affordability";
 import Qualification from "./pages/Qualification";
 import RentOrBuy from "./pages/RentOrBuy";
+import ExtraPayments from "./pages/ExtraPayments";
 import NotFound from "./pages/NotFound";
 
 const queryClient = new QueryClient();
@@ -32,6 +33,7 @@ const App = () => (
             <Route path="/affordability" element={<Affordability />} />
             <Route path="/qualification" element={<Qualification />} />
             <Route path="/rent-or-buy" element={<RentOrBuy />} />
+            <Route path="/extra-payments" element={<ExtraPayments />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
