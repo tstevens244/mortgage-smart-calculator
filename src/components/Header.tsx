@@ -23,10 +23,6 @@ const navItems = [
     label: "Mortgage",
     href: "/",
     subItems: [
-      { label: "30yr Fixed", href: "/" },
-      { label: "20yr Fixed", href: "/" },
-      { label: "15yr Fixed", href: "/" },
-      { label: "10yr Fixed", href: "/" },
       { label: "Second Mortgage", href: "/" },
       { label: "HELOC", href: "/" },
     ],
