@@ -7,7 +7,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import PaymentBreakdown from "./PaymentBreakdown";
 import AmortizationSchedule from "./AmortizationSchedule";
 import AmortizationChart from "./AmortizationChart";
-import { formatCurrency, formatNumber, parseNumber } from "@/lib/formatters";
+import CurrencyInput from "./CurrencyInput";
+import { formatCurrency } from "@/lib/formatters";
 
 interface MortgageInputs {
   homePrice: number;
@@ -141,13 +142,10 @@ const MortgageCalculator = () => {
                   <span className="hidden sm:inline">Home Price</span>
                   <span className="sm:hidden">Price</span>
                 </Label>
-                <Input
+                <CurrencyInput
                   id="home-price"
-                  type="text"
-                  inputMode="numeric"
-                  value={formatNumber(inputs.homePrice)}
-                  onChange={(e) => updateInput("homePrice", parseNumber(e.target.value))}
-                  className="h-8 sm:h-10 text-sm sm:text-lg font-medium flex-1"
+                  value={inputs.homePrice}
+                  onChange={(value) => updateInput("homePrice", value)}
                   aria-describedby="home-price-desc"
                 />
                 <span id="home-price-desc" className="sr-only">Enter the total price of the home</span>
@@ -161,13 +159,10 @@ const MortgageCalculator = () => {
                   <span className="sm:hidden">Down</span>
                 </Label>
                 <div className="flex gap-1 sm:gap-2 flex-1">
-                  <Input
+                  <CurrencyInput
                     id="down-payment"
-                    type="text"
-                    inputMode="numeric"
-                    value={formatNumber(inputs.downPayment)}
-                    onChange={(e) => updateInput("downPayment", parseNumber(e.target.value))}
-                    className="h-8 sm:h-10 text-sm sm:text-lg font-medium flex-1"
+                    value={inputs.downPayment}
+                    onChange={(value) => updateInput("downPayment", value)}
                   />
                   <Input
                     type="text"
@@ -296,13 +291,10 @@ const MortgageCalculator = () => {
                   <span className="hidden sm:inline">Property Tax</span>
                   <span className="sm:hidden">Tax</span>
                 </Label>
-                <Input
+                <CurrencyInput
                   id="property-tax"
-                  type="text"
-                  inputMode="numeric"
-                  value={formatNumber(inputs.propertyTax)}
-                  onChange={(e) => updateInput("propertyTax", parseNumber(e.target.value))}
-                  className="h-8 sm:h-10 text-sm sm:text-lg font-medium flex-1"
+                  value={inputs.propertyTax}
+                  onChange={(value) => updateInput("propertyTax", value)}
                 />
               </div>
 
@@ -313,13 +305,10 @@ const MortgageCalculator = () => {
                   <span className="hidden sm:inline">Insurance</span>
                   <span className="sm:hidden">Ins.</span>
                 </Label>
-                <Input
+                <CurrencyInput
                   id="home-insurance"
-                  type="text"
-                  inputMode="numeric"
-                  value={formatNumber(inputs.homeInsurance)}
-                  onChange={(e) => updateInput("homeInsurance", parseNumber(e.target.value))}
-                  className="h-8 sm:h-10 text-sm sm:text-lg font-medium flex-1"
+                  value={inputs.homeInsurance}
+                  onChange={(value) => updateInput("homeInsurance", value)}
                 />
               </div>
 
@@ -332,13 +321,10 @@ const MortgageCalculator = () => {
                     <span className="text-[10px] sm:text-xs text-accent ml-1">Auto</span>
                   )}
                 </Label>
-                <Input
+                <CurrencyInput
                   id="pmi"
-                  type="text"
-                  inputMode="numeric"
-                  value={formatNumber(Math.round(inputs.pmi))}
-                  onChange={(e) => updateInput("pmi", parseNumber(e.target.value))}
-                  className="h-8 sm:h-10 text-sm sm:text-lg font-medium flex-1"
+                  value={Math.round(inputs.pmi)}
+                  onChange={(value) => updateInput("pmi", value)}
                 />
               </div>
 
@@ -348,13 +334,10 @@ const MortgageCalculator = () => {
                   <Users className="h-3 w-3 sm:h-4 sm:w-4" aria-hidden="true" />
                   HOA
                 </Label>
-                <Input
+                <CurrencyInput
                   id="hoa-fees"
-                  type="text"
-                  inputMode="numeric"
-                  value={formatNumber(inputs.hoaFees)}
-                  onChange={(e) => updateInput("hoaFees", parseNumber(e.target.value))}
-                  className="h-8 sm:h-10 text-sm sm:text-lg font-medium flex-1"
+                  value={inputs.hoaFees}
+                  onChange={(value) => updateInput("hoaFees", value)}
                 />
               </div>
             </div>
