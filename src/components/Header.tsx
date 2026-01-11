@@ -50,7 +50,7 @@ const navItems = [
     href: "/extra-payments",
     subItems: [
       { label: "Extra Payments", href: "/extra-payments" },
-      { label: "Bi Weekly Payments", href: "/extra-payments" },
+      { label: "Bi-Weekly Payments", href: "/bi-weekly-payments" },
     ],
   },
 ];
