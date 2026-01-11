@@ -42,7 +42,7 @@ const navItems = [
     subItems: [
       { label: "Mortgage Affordability", href: "/affordability" },
       { label: "Mortgage Qualification", href: "/qualification" },
-      { label: "Rent or Buy", href: "/affordability" },
+      { label: "Rent or Buy", href: "/rent-or-buy" },
     ],
   },
   {
