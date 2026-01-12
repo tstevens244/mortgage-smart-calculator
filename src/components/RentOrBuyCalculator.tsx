@@ -14,6 +14,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { HelpCircle, Home, Building2, TrendingUp, DollarSign, PiggyBank, Scale } from "lucide-react";
+import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip as RechartsTooltip, Cell } from "recharts";
 import CurrencyInput from "./CurrencyInput";
 import { formatCurrency } from "@/lib/formatters";
 
@@ -553,42 +554,59 @@ const RentOrBuyCalculator = () => {
             </CardContent>
           </Card>
 
-          {/* Comparison Table */}
+          {/* Cost Comparison Chart */}
           <Card className="calculator-card">
             <CardHeader className="pb-4">
-              <CardTitle className="text-lg font-semibold">Total Costs Comparison</CardTitle>
+              <CardTitle className="text-lg font-semibold">Total Cost Comparison</CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-3">
-                <div className="grid grid-cols-3 gap-2 text-sm font-medium pb-2 border-b border-border">
-                  <span></span>
-                  <span className="text-center">Rental</span>
-                  <span className="text-center">Purchase</span>
-                </div>
-                
-                <div className="grid grid-cols-3 gap-2 text-sm py-2 border-b border-border/50">
-                  <span className="text-muted-foreground">Taxes & Insurance</span>
-                  <span className="text-center">{formatCurrency(0)}</span>
-                  <span className="text-center">{formatCurrency(results.totalTaxesAndInsurance)}</span>
-                </div>
-                
-                <div className="grid grid-cols-3 gap-2 text-sm py-2 border-b border-border/50">
-                  <span className="text-muted-foreground">Total PMI</span>
-                  <span className="text-center">{formatCurrency(0)}</span>
-                  <span className="text-center">{formatCurrency(results.totalPMIPaid)}</span>
-                </div>
-                
-                <div className="grid grid-cols-3 gap-2 text-sm py-2 border-b border-border/50">
-                  <span className="text-muted-foreground">Total Maintenance</span>
-                  <span className="text-center">{formatCurrency(0)}</span>
-                  <span className="text-center">{formatCurrency(results.totalMaintenance)}</span>
-                </div>
-                
-                <div className="grid grid-cols-3 gap-2 text-sm py-2 font-semibold">
-                  <span>Total Payments</span>
-                  <span className="text-center">{formatCurrency(results.totalRentPaid)}</span>
-                  <span className="text-center">{formatCurrency(results.totalOwnershipPayments)}</span>
-                </div>
+              <div className="h-[180px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart
+                    data={[
+                      { name: 'Rent', value: results.totalRentPaid, fill: 'hsl(var(--accent))' },
+                      { name: 'Buy', value: results.totalOwnershipPayments, fill: 'hsl(var(--primary))' },
+                    ]}
+                    layout="vertical"
+                    margin={{ top: 10, right: 30, left: 50, bottom: 10 }}
+                  >
+                    <XAxis 
+                      type="number" 
+                      tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`}
+                      tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }}
+                    />
+                    <YAxis 
+                      type="category" 
+                      dataKey="name" 
+                      tick={{ fontSize: 12, fill: 'hsl(var(--foreground))' }}
+                      width={40}
+                    />
+                    <RechartsTooltip
+                      formatter={(value: number) => formatCurrency(value)}
+                      contentStyle={{
+                        backgroundColor: 'hsl(var(--card))',
+                        border: '1px solid hsl(var(--border))',
+                        borderRadius: '8px',
+                        fontSize: '12px',
+                      }}
+                    />
+                    <Bar dataKey="value" radius={[0, 4, 4, 0]}>
+                      {[
+                        { name: 'Rent', value: results.totalRentPaid, fill: 'hsl(var(--accent))' },
+                        { name: 'Buy', value: results.totalOwnershipPayments, fill: 'hsl(var(--primary))' },
+                      ].map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.fill} />
+                      ))}
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="flex justify-between items-center py-3 bg-secondary/50 rounded-lg px-3 mt-4">
+                <span className="font-medium">Difference</span>
+                <span className="font-bold text-accent">
+                  {results.isRentCheaper ? "Rent saves " : "Buying saves "} 
+                  {formatCurrency(results.rentSavings)}
+                </span>
               </div>
             </CardContent>
           </Card>

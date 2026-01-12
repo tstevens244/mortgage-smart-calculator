@@ -5,6 +5,8 @@ import { Label } from "@/components/ui/label";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/tooltip";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { BarChart, Bar, XAxis, YAxis, ResponsiveContainer, Tooltip as RechartsTooltip, Cell } from "recharts";
 import CurrencyInput from "./CurrencyInput";
 import { formatCurrency } from "@/lib/formatters";
 
@@ -588,6 +590,56 @@ const SecondMortgageCalculator = () => {
                 </tbody>
               </table>
             </div>
+
+            {/* Comparison Chart */}
+            <Card className="mt-6">
+              <CardHeader className="pb-4">
+                <CardTitle className="text-lg font-semibold">Monthly Payment Comparison</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <div className="h-[160px]">
+                  <ResponsiveContainer width="100%" height="100%">
+                    <BarChart
+                      data={[
+                        { name: 'With PMI', value: calculations.pmi.totalMonthly, fill: 'hsl(var(--primary))' },
+                        { name: 'Piggyback', value: calculations.piggyback.totalMonthly, fill: 'hsl(var(--accent))' },
+                      ]}
+                      layout="vertical"
+                      margin={{ top: 10, right: 30, left: 70, bottom: 10 }}
+                    >
+                      <XAxis 
+                        type="number" 
+                        tickFormatter={(value) => `$${value.toFixed(0)}`}
+                        tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }}
+                      />
+                      <YAxis 
+                        type="category" 
+                        dataKey="name" 
+                        tick={{ fontSize: 12, fill: 'hsl(var(--foreground))' }}
+                        width={65}
+                      />
+                      <RechartsTooltip
+                        formatter={(value: number) => formatCurrency(value)}
+                        contentStyle={{
+                          backgroundColor: 'hsl(var(--card))',
+                          border: '1px solid hsl(var(--border))',
+                          borderRadius: '8px',
+                          fontSize: '12px',
+                        }}
+                      />
+                      <Bar dataKey="value" radius={[0, 4, 4, 0]}>
+                        {[
+                          { name: 'With PMI', value: calculations.pmi.totalMonthly, fill: 'hsl(var(--primary))' },
+                          { name: 'Piggyback', value: calculations.piggyback.totalMonthly, fill: 'hsl(var(--accent))' },
+                        ].map((entry, index) => (
+                          <Cell key={`cell-${index}`} fill={entry.fill} />
+                        ))}
+                      </Bar>
+                    </BarChart>
+                  </ResponsiveContainer>
+                </div>
+              </CardContent>
+            </Card>
 
             {/* Summary */}
             <div className={`mt-6 p-4 rounded-lg ${calculations.betterOption === 'piggyback' ? 'bg-accent/10 border border-accent' : 'bg-primary/10 border border-primary'}`}>
