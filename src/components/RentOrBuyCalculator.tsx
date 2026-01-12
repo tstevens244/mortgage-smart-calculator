@@ -129,13 +129,19 @@ const RentOrBuyCalculator = () => {
     const loanBalance = remainingBalance;
     const equityAppreciation = proceedsMinusCosts - loanBalance - downPayment;
 
-    // Net benefit comparison
-    const rentSavings = totalRentPaid - totalOwnershipPayments;
-    const homePurchaseBenefit = equityAppreciation + totalTaxSavings + (rentSavings > 0 ? 0 : Math.abs(rentSavings));
+    // Net cost comparison
+    // Total cost of renting = all rent paid (no equity build)
+    const totalRentCost = totalRentPaid;
     
-    // Final recommendation
-    const netBenefitOfBuying = equityAppreciation + totalTaxSavings - Math.max(0, totalOwnershipPayments - totalRentPaid);
-    const shouldBuy = netBenefitOfBuying > 0;
+    // Total cost of buying = payments made - equity gained (appreciation + principal paid - selling costs)
+    // Net equity at end = futureHomeValue - sellingCosts - loanBalance - downPayment already paid
+    // Total out of pocket for buying = downPayment + totalOwnershipPayments - totalTaxSavings
+    // Net cost of buying = out of pocket - equity appreciation
+    const totalBuyCost = downPayment + totalOwnershipPayments - totalTaxSavings - equityAppreciation;
+    
+    // Should buy when buying costs less than renting
+    const netBenefitOfBuying = totalRentCost - totalBuyCost;
+    const shouldBuy = totalBuyCost < totalRentCost;
 
     return {
       // Rent
@@ -156,13 +162,15 @@ const RentOrBuyCalculator = () => {
       totalTaxSavings,
       
       // Appreciation
-      rentSavings: Math.abs(rentSavings),
-      isRentCheaper: rentSavings > 0,
+      // Costs for comparison
+      totalRentCost,
+      totalBuyCost,
+      costDifference: Math.abs(totalRentCost - totalBuyCost),
+      isRentCheaper: totalRentCost < totalBuyCost,
       futureHomeValue,
       proceedsMinusCosts,
       loanBalance,
       equityAppreciation,
-      homePurchaseBenefit: netBenefitOfBuying,
       
       // Recommendation
       shouldBuy,
@@ -605,7 +613,7 @@ const RentOrBuyCalculator = () => {
                 <span className="font-medium">Difference</span>
                 <span className="font-bold text-accent">
                   {results.isRentCheaper ? "Rent saves " : "Buying saves "} 
-                  {formatCurrency(results.rentSavings)}
+                  {formatCurrency(results.costDifference)}
                 </span>
               </div>
             </CardContent>
