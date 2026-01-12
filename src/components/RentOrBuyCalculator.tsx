@@ -572,8 +572,8 @@ const RentOrBuyCalculator = () => {
                 <ResponsiveContainer width="100%" height="100%">
                   <BarChart
                     data={[
-                      { name: 'Rent', value: results.totalRentPaid, fill: 'hsl(var(--accent))' },
-                      { name: 'Buy', value: results.totalOwnershipPayments, fill: 'hsl(var(--primary))' },
+                      { name: 'Rent', value: results.totalRentCost, fill: 'hsl(var(--accent))' },
+                      { name: 'Buy', value: results.totalBuyCost, fill: 'hsl(var(--primary))' },
                     ]}
                     layout="vertical"
                     margin={{ top: 10, right: 30, left: 50, bottom: 10 }}
