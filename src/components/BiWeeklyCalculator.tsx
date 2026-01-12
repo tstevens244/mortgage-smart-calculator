@@ -316,7 +316,110 @@ const BiWeeklyCalculator = () => {
                 </p>
               </div>
             </CardContent>
-          </Card>
+        </Card>
+
+          {/* Amortization Tabs - Fills remaining space */}
+          <Tabs defaultValue="chart" className="w-full">
+            <TabsList className="grid w-full grid-cols-2 mb-4">
+              <TabsTrigger value="chart" className="text-sm">
+                <ChartLine className="h-4 w-4 mr-2" />
+                <span className="hidden sm:inline">Balance Comparison</span>
+                <span className="sm:hidden">Chart</span>
+              </TabsTrigger>
+              <TabsTrigger value="schedule" className="text-sm">
+                <TableIcon className="h-4 w-4 mr-2" />
+                <span className="hidden sm:inline">Yearly Schedule</span>
+                <span className="sm:hidden">Schedule</span>
+              </TabsTrigger>
+            </TabsList>
+
+            <TabsContent value="chart" className="mt-0">
+              <Card className="calculator-card">
+                <CardContent className="pt-6">
+                  <div className="h-[300px]">
+                    <ResponsiveContainer width="100%" height="100%">
+                      <AreaChart data={results.chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
+                        <CartesianGrid strokeDasharray="3 3" stroke="hsl(var(--border))" />
+                        <XAxis 
+                          dataKey="year" 
+                          tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }}
+                          tickLine={false}
+                          axisLine={{ stroke: 'hsl(var(--border))' }}
+                        />
+                        <YAxis 
+                          tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`}
+                          tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }}
+                          tickLine={false}
+                          axisLine={{ stroke: 'hsl(var(--border))' }}
+                          width={50}
+                        />
+                        <RechartsTooltip
+                          formatter={(value: number) => [formatCurrency(value), '']}
+                          contentStyle={{
+                            backgroundColor: 'hsl(var(--card))',
+                            border: '1px solid hsl(var(--border))',
+                            borderRadius: '8px',
+                            fontSize: '12px',
+                          }}
+                        />
+                        <Legend 
+                          wrapperStyle={{ fontSize: '12px' }}
+                          formatter={(value) => value === 'standardBalance' ? 'Standard' : 'Bi-Weekly'}
+                        />
+                        <Area
+                          type="monotone"
+                          dataKey="standardBalance"
+                          name="standardBalance"
+                          stroke="hsl(var(--muted-foreground))"
+                          fill="hsl(var(--muted-foreground) / 0.3)"
+                          strokeWidth={2}
+                        />
+                        <Area
+                          type="monotone"
+                          dataKey="biWeeklyBalance"
+                          name="biWeeklyBalance"
+                          stroke="hsl(var(--accent))"
+                          fill="hsl(var(--accent) / 0.3)"
+                          strokeWidth={2}
+                        />
+                      </AreaChart>
+                    </ResponsiveContainer>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+
+            <TabsContent value="schedule" className="mt-0">
+              <Card className="calculator-card">
+                <CardContent className="pt-6">
+                  <div className="max-h-[300px] overflow-y-auto">
+                    <Table>
+                      <TableHeader>
+                        <TableRow>
+                          <TableHead className="text-center">Year</TableHead>
+                          <TableHead className="text-right">Standard Balance</TableHead>
+                          <TableHead className="text-right">Bi-Weekly Balance</TableHead>
+                          <TableHead className="text-right">Difference</TableHead>
+                        </TableRow>
+                      </TableHeader>
+                      <TableBody>
+                        {results.chartData.map((row, index) => (
+                          <TableRow key={index}>
+                            <TableCell className="text-center font-medium">{row.year}</TableCell>
+                            <TableCell className="text-right">{formatCurrency(row.standardBalance)}</TableCell>
+                            <TableCell className="text-right">{formatCurrency(row.biWeeklyBalance)}</TableCell>
+                            <TableCell className="text-right text-accent font-medium">
+                              {formatCurrency(row.standardBalance - row.biWeeklyBalance)}
+                            </TableCell>
+                          </TableRow>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </div>
+                </CardContent>
+              </Card>
+            </TabsContent>
+          </Tabs>
         </div>
 
         {/* Right Column - Results */}
@@ -448,116 +551,6 @@ const BiWeeklyCalculator = () => {
           </Card>
         </div>
       </div>
-
-      {/* Amortization Tabs */}
-      <Tabs defaultValue="chart" className="w-full">
-        <TabsList className="grid w-full grid-cols-2 mb-6">
-          <TabsTrigger value="chart" className="text-sm">
-            <ChartLine className="h-4 w-4 mr-2" />
-            <span className="hidden sm:inline">Balance Comparison</span>
-            <span className="sm:hidden">Chart</span>
-          </TabsTrigger>
-          <TabsTrigger value="schedule" className="text-sm">
-            <TableIcon className="h-4 w-4 mr-2" />
-            <span className="hidden sm:inline">Amortization Schedule</span>
-            <span className="sm:hidden">Schedule</span>
-          </TabsTrigger>
-        </TabsList>
-
-        <TabsContent value="chart">
-          <Card className="calculator-card">
-            <CardHeader className="pb-4">
-              <CardTitle className="text-lg font-semibold">Loan Balance Over Time</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="h-[300px] md:h-[400px]">
-                <ResponsiveContainer width="100%" height="100%">
-                  <AreaChart data={results.chartData} margin={{ top: 10, right: 10, left: 0, bottom: 0 }}>
-                    <CartesianGrid strokeDasharray="3 3" className="stroke-border" />
-                    <XAxis
-                      dataKey="year"
-                      tick={{ fontSize: 12 }}
-                      className="text-muted-foreground"
-                      interval="preserveStartEnd"
-                    />
-                    <YAxis
-                      tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`}
-                      tick={{ fontSize: 12 }}
-                      className="text-muted-foreground"
-                    />
-                    <RechartsTooltip
-                      contentStyle={{
-                        backgroundColor: 'hsl(var(--card))',
-                        border: '1px solid hsl(var(--border))',
-                        borderRadius: '8px',
-                      }}
-                      formatter={(value: number) => formatCurrency(value)}
-                    />
-                    <Legend />
-                    <Area
-                      type="monotone"
-                      dataKey="standardBalance"
-                      name="Standard Monthly"
-                      stroke="hsl(var(--muted-foreground))"
-                      fill="hsl(var(--muted))"
-                      fillOpacity={0.6}
-                    />
-                    <Area
-                      type="monotone"
-                      dataKey="biWeeklyBalance"
-                      name="Bi-Weekly"
-                      stroke="hsl(var(--primary))"
-                      fill="hsl(var(--primary))"
-                      fillOpacity={0.6}
-                    />
-                  </AreaChart>
-                </ResponsiveContainer>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-
-        <TabsContent value="schedule">
-          <Card className="calculator-card">
-            <CardHeader className="pb-4">
-              <CardTitle className="text-lg font-semibold">Yearly Amortization Schedule</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="overflow-x-auto">
-                <Table>
-                  <TableHeader>
-                    <TableRow>
-                      <TableHead className="text-center">Year</TableHead>
-                      <TableHead className="text-right">Standard Balance</TableHead>
-                      <TableHead className="text-right">Bi-Weekly Balance</TableHead>
-                      <TableHead className="text-right">Difference</TableHead>
-                    </TableRow>
-                  </TableHeader>
-                  <TableBody>
-                    {results.standardSchedule.map((item, index) => {
-                      const biWeeklyItem = results.biWeeklySchedule[index];
-                      const difference = item.balance - (biWeeklyItem?.balance ?? 0);
-
-                      return (
-                        <TableRow key={item.year}>
-                          <TableCell className="text-center font-medium">{item.year}</TableCell>
-                          <TableCell className="text-right">{formatCurrency(item.balance)}</TableCell>
-                          <TableCell className="text-right">
-                            {biWeeklyItem ? formatCurrency(biWeeklyItem.balance) : "Paid Off"}
-                          </TableCell>
-                          <TableCell className="text-right text-accent font-medium">
-                            {formatCurrency(difference)}
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
-                  </TableBody>
-                </Table>
-              </div>
-            </CardContent>
-          </Card>
-        </TabsContent>
-      </Tabs>
     </div>
   );
 };
