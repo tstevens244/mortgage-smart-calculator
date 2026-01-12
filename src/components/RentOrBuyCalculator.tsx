@@ -524,6 +524,63 @@ const RentOrBuyCalculator = () => {
               </div>
             </CardContent>
           </Card>
+
+          {/* Cost Comparison Chart */}
+          <Card className="calculator-card">
+            <CardHeader className="pb-4">
+              <CardTitle className="text-lg font-semibold">Total Cost Comparison</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="h-[140px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <BarChart
+                    data={[
+                      { name: 'Rent', value: results.totalRentCost, fill: 'hsl(var(--accent))' },
+                      { name: 'Buy', value: results.totalBuyCost, fill: 'hsl(var(--primary))' },
+                    ]}
+                    layout="vertical"
+                    margin={{ top: 5, right: 30, left: 40, bottom: 5 }}
+                  >
+                    <XAxis 
+                      type="number" 
+                      tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`}
+                      tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }}
+                    />
+                    <YAxis 
+                      type="category" 
+                      dataKey="name" 
+                      tick={{ fontSize: 12, fill: 'hsl(var(--foreground))' }}
+                      width={35}
+                    />
+                    <RechartsTooltip
+                      formatter={(value: number) => formatCurrency(value)}
+                      contentStyle={{
+                        backgroundColor: 'hsl(var(--card))',
+                        border: '1px solid hsl(var(--border))',
+                        borderRadius: '8px',
+                        fontSize: '12px',
+                      }}
+                    />
+                    <Bar dataKey="value" radius={[0, 4, 4, 0]}>
+                      {[
+                        { name: 'Rent', value: results.totalRentCost, fill: 'hsl(var(--accent))' },
+                        { name: 'Buy', value: results.totalBuyCost, fill: 'hsl(var(--primary))' },
+                      ].map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.fill} />
+                      ))}
+                    </Bar>
+                  </BarChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="flex justify-between items-center py-2 bg-secondary/50 rounded-lg px-3 mt-3">
+                <span className="font-medium text-sm">Difference</span>
+                <span className="font-bold text-accent text-sm">
+                  {results.isRentCheaper ? "Rent saves " : "Buying saves "} 
+                  {formatCurrency(results.costDifference)}
+                </span>
+              </div>
+            </CardContent>
+          </Card>
         </div>
 
         {/* Right Column - Results */}
@@ -542,63 +599,6 @@ const RentOrBuyCalculator = () => {
                 <p className="text-white/80 text-sm">
                   Net benefit: {formatCurrency(Math.abs(results.netBenefitOfBuying))}
                 </p>
-              </div>
-            </CardContent>
-          </Card>
-
-          {/* Cost Comparison Chart */}
-          <Card className="calculator-card">
-            <CardHeader className="pb-4">
-              <CardTitle className="text-lg font-semibold">Total Cost Comparison</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <div className="h-[180px]">
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart
-                    data={[
-                      { name: 'Rent', value: results.totalRentCost, fill: 'hsl(var(--accent))' },
-                      { name: 'Buy', value: results.totalBuyCost, fill: 'hsl(var(--primary))' },
-                    ]}
-                    layout="vertical"
-                    margin={{ top: 10, right: 30, left: 50, bottom: 10 }}
-                  >
-                    <XAxis 
-                      type="number" 
-                      tickFormatter={(value) => `$${(value / 1000).toFixed(0)}k`}
-                      tick={{ fontSize: 11, fill: 'hsl(var(--muted-foreground))' }}
-                    />
-                    <YAxis 
-                      type="category" 
-                      dataKey="name" 
-                      tick={{ fontSize: 12, fill: 'hsl(var(--foreground))' }}
-                      width={40}
-                    />
-                    <RechartsTooltip
-                      formatter={(value: number) => formatCurrency(value)}
-                      contentStyle={{
-                        backgroundColor: 'hsl(var(--card))',
-                        border: '1px solid hsl(var(--border))',
-                        borderRadius: '8px',
-                        fontSize: '12px',
-                      }}
-                    />
-                    <Bar dataKey="value" radius={[0, 4, 4, 0]}>
-                      {[
-                        { name: 'Rent', value: results.totalRentPaid, fill: 'hsl(var(--accent))' },
-                        { name: 'Buy', value: results.totalOwnershipPayments, fill: 'hsl(var(--primary))' },
-                      ].map((entry, index) => (
-                        <Cell key={`cell-${index}`} fill={entry.fill} />
-                      ))}
-                    </Bar>
-                  </BarChart>
-                </ResponsiveContainer>
-              </div>
-              <div className="flex justify-between items-center py-3 bg-secondary/50 rounded-lg px-3 mt-4">
-                <span className="font-medium">Difference</span>
-                <span className="font-bold text-accent">
-                  {results.isRentCheaper ? "Rent saves " : "Buying saves "} 
-                  {formatCurrency(results.costDifference)}
-                </span>
               </div>
             </CardContent>
           </Card>
