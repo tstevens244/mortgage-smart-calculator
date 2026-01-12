@@ -103,9 +103,9 @@ const QualificationCalculator = () => {
         </p>
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-6">
+      <div className="grid gap-6 lg:grid-cols-3">
         {/* Input Section */}
-        <div className="space-y-6">
+        <div className="lg:col-span-2 grid gap-6 sm:grid-cols-2">
           <Card className="calculator-card">
             <CardHeader className="pb-4">
               <CardTitle className="text-lg font-semibold flex items-center gap-2">

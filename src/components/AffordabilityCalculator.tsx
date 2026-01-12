@@ -292,8 +292,8 @@ const AffordabilityCalculator = () => {
 
         {/* Income-Based Calculator */}
         <TabsContent value="income">
-          <div className="grid lg:grid-cols-2 gap-6">
-            <Card className="calculator-card">
+          <div className="grid gap-6 lg:grid-cols-3">
+            <Card className="lg:col-span-2 calculator-card">
               <CardHeader className="pb-4">
                 <CardTitle className="text-lg font-semibold flex items-center gap-2">
                   <Home className="h-5 w-5 text-accent" />
@@ -459,8 +459,8 @@ const AffordabilityCalculator = () => {
 
         {/* Budget-Based Calculator */}
         <TabsContent value="budget">
-          <div className="grid lg:grid-cols-2 gap-6">
-            <Card className="calculator-card">
+          <div className="grid gap-6 lg:grid-cols-3">
+            <Card className="lg:col-span-2 calculator-card">
               <CardHeader className="pb-4">
                 <CardTitle className="text-lg font-semibold flex items-center gap-2">
                   <PiggyBank className="h-5 w-5 text-accent" />

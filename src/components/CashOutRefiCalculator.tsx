@@ -88,9 +88,9 @@ const CashOutRefiCalculator = () => {
         </p>
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-6">
+      <div className="grid gap-6 lg:grid-cols-3">
         {/* Input Section */}
-        <Card className="calculator-card">
+        <Card className="lg:col-span-2 calculator-card">
           <CardHeader className="pb-4">
             <CardTitle className="text-lg font-semibold flex items-center gap-2">
               <Home className="h-5 w-5 text-accent" />
