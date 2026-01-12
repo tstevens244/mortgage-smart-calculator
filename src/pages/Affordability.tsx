@@ -16,15 +16,15 @@ const Affordability = () => {
       </Helmet>
       <div className="min-h-screen bg-background flex flex-col">
         <Header />
-        <main className="flex-1 container py-6 md:py-10">
-          <header className="mb-6">
-              <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
-                How Much House Can I Afford?
-              </h1>
-              <p className="text-muted-foreground">
-                Estimate your maximum home price based on income or monthly budget
-              </p>
-            </header>
+        <main className="flex-1 container py-8">
+          <header className="text-center mb-10">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-foreground mb-4">
+              How Much House Can I Afford?
+            </h1>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Estimate your maximum home price based on income or monthly budget
+            </p>
+          </header>
           <AffordabilityCalculator />
         </main>
         <Footer />

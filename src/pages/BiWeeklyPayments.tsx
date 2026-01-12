@@ -18,15 +18,15 @@ const BiWeeklyPayments = () => {
       <div className="min-h-screen bg-background flex flex-col">
         <Header />
         
-        <main className="flex-1 container py-8 md:py-12">
-          <header className="mb-8">
-                <h1 className="text-3xl md:text-4xl font-display font-bold text-foreground mb-3">
-                  Bi-Weekly Mortgage Payment Calculator
-                </h1>
-                <p className="text-muted-foreground text-lg">
-                  See how switching to bi-weekly payments can save you thousands and shave years off your mortgage.
-                </p>
-              </header>
+        <main className="flex-1 container py-8">
+          <header className="text-center mb-10">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-foreground mb-4">
+              Bi-Weekly Mortgage Payment Calculator
+            </h1>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              See how switching to bi-weekly payments can save you thousands and shave years off your mortgage.
+            </p>
+          </header>
 
               <BiWeeklyCalculator />
               

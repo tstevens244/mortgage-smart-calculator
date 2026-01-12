@@ -16,15 +16,15 @@ const Qualification = () => {
       </Helmet>
       <div className="min-h-screen bg-background flex flex-col">
         <Header />
-        <main className="flex-1 container py-6 md:py-10">
-          <header className="mb-6">
-              <h1 className="text-2xl md:text-3xl font-bold text-foreground mb-2">
-                Mortgage Qualification Calculator
-              </h1>
-              <p className="text-muted-foreground">
-                Calculate the minimum income needed to qualify for your desired home
-              </p>
-            </header>
+        <main className="flex-1 container py-8">
+          <header className="text-center mb-10">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-foreground mb-4">
+              Mortgage Qualification Calculator
+            </h1>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Calculate the minimum income needed to qualify for your desired home
+            </p>
+          </header>
           <QualificationCalculator />
         </main>
         <Footer />

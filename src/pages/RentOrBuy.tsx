@@ -18,15 +18,15 @@ const RentOrBuy = () => {
       <div className="min-h-screen bg-background flex flex-col">
         <Header />
         
-        <main className="flex-1 container py-8 md:py-12">
-          <header className="mb-8">
-                <h1 className="text-3xl md:text-4xl font-display font-bold text-foreground mb-3">
-                  Rent or Buy Calculator
-                </h1>
-                <p className="text-muted-foreground text-lg">
-                  Should you rent or buy? Compare the long-term financial impact of renting versus purchasing a home.
-                </p>
-              </header>
+        <main className="flex-1 container py-8">
+          <header className="text-center mb-10">
+            <h1 className="text-3xl sm:text-4xl lg:text-5xl font-display font-bold text-foreground mb-4">
+              Rent or Buy Calculator
+            </h1>
+            <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
+              Should you rent or buy? Compare the long-term financial impact of renting versus purchasing a home.
+            </p>
+          </header>
 
               <RentOrBuyCalculator />
               
