@@ -202,9 +202,9 @@ const BiWeeklyCalculator = () => {
         </p>
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-6">
+      <div className="grid lg:grid-cols-5 gap-6">
         {/* Left Column - Inputs */}
-        <div className="space-y-6">
+        <div className="space-y-6 lg:col-span-3">
           {/* Loan Information */}
           <Card className="calculator-card">
             <CardHeader className="pb-4">
@@ -313,7 +313,7 @@ const BiWeeklyCalculator = () => {
         </div>
 
         {/* Right Column - Results */}
-        <div className="space-y-6">
+        <div className="space-y-6 lg:col-span-2">
           {/* Net Benefit Highlight */}
           <Card className="bg-primary border-0 rounded-xl p-6 shadow-xl">
             <CardContent className="p-0">

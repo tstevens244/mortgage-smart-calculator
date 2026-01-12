@@ -197,7 +197,7 @@ const AffordabilityCalculator = () => {
   }, [monthlyBudget, budgetLoanTerm, budgetInterestRate, budgetDownPaymentPercent, budgetPropertyTaxRate, budgetHoaFee, budgetInsuranceRate]);
 
   const ResultsCard = ({ results, title }: { results: typeof incomeResults; title: string }) => (
-    <div className="space-y-6">
+    <div className="space-y-6 lg:col-span-2">
       {/* Main Result */}
       <Card className="bg-primary border-0 rounded-xl p-6 shadow-xl">
         <CardContent className="p-0">
@@ -292,8 +292,8 @@ const AffordabilityCalculator = () => {
 
         {/* Income-Based Calculator */}
         <TabsContent value="income">
-          <div className="grid lg:grid-cols-2 gap-6">
-            <Card className="calculator-card">
+          <div className="grid lg:grid-cols-5 gap-6">
+            <Card className="calculator-card lg:col-span-3">
               <CardHeader className="pb-4">
                 <CardTitle className="text-lg font-semibold flex items-center gap-2">
                   <Home className="h-5 w-5 text-accent" />
@@ -459,8 +459,8 @@ const AffordabilityCalculator = () => {
 
         {/* Budget-Based Calculator */}
         <TabsContent value="budget">
-          <div className="grid lg:grid-cols-2 gap-6">
-            <Card className="calculator-card">
+          <div className="grid lg:grid-cols-5 gap-6">
+            <Card className="calculator-card lg:col-span-3">
               <CardHeader className="pb-4">
                 <CardTitle className="text-lg font-semibold flex items-center gap-2">
                   <PiggyBank className="h-5 w-5 text-accent" />

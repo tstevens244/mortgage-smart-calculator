@@ -193,9 +193,9 @@ const RentOrBuyCalculator = () => {
         </p>
       </div>
 
-      <div className="grid lg:grid-cols-2 gap-6">
+      <div className="grid lg:grid-cols-5 gap-6">
         {/* Left Column - Inputs */}
-        <div className="space-y-6">
+        <div className="space-y-6 lg:col-span-3">
           {/* Rent Information */}
           <Card className="calculator-card">
             <CardHeader className="pb-4">
@@ -510,7 +510,7 @@ const RentOrBuyCalculator = () => {
         </div>
 
         {/* Right Column - Results */}
-        <div className="space-y-6">
+        <div className="space-y-6 lg:col-span-2">
           {/* Recommendation Card */}
           <Card className={`border-0 rounded-xl p-6 shadow-xl ${results.shouldBuy ? 'bg-primary' : 'bg-accent'}`}>
             <CardContent className="p-0">
