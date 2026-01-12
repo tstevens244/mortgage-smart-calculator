@@ -130,12 +130,12 @@ const RentOrBuyCalculator = () => {
     const equityAppreciation = proceedsMinusCosts - loanBalance - downPayment;
 
     // Net benefit comparison
-    const rentSavings = totalRentPaid - totalOwnershipPayments;
-    const homePurchaseBenefit = equityAppreciation + totalTaxSavings + (rentSavings > 0 ? 0 : Math.abs(rentSavings));
+    // Total cost of buying = all payments made - equity gained - tax savings
+    const totalBuyingCost = totalOwnershipPayments + downPayment - (proceedsMinusCosts - loanBalance);
     
-    // Final recommendation
-    const netBenefitOfBuying = equityAppreciation + totalTaxSavings - Math.max(0, totalOwnershipPayments - totalRentPaid);
-    const shouldBuy = netBenefitOfBuying > 0;
+    // Simple comparison: which option costs less over the time period?
+    const shouldBuy = totalBuyingCost < totalRentPaid;
+    const netBenefitOfBuying = totalRentPaid - totalBuyingCost;
 
     return {
       // Rent
@@ -156,8 +156,8 @@ const RentOrBuyCalculator = () => {
       totalTaxSavings,
       
       // Appreciation
-      rentSavings: Math.abs(rentSavings),
-      isRentCheaper: rentSavings > 0,
+      costDifference: Math.abs(totalRentPaid - totalBuyingCost),
+      isRentCheaper: totalRentPaid < totalBuyingCost,
       futureHomeValue,
       proceedsMinusCosts,
       loanBalance,
@@ -605,7 +605,7 @@ const RentOrBuyCalculator = () => {
                 <span className="font-medium">Difference</span>
                 <span className="font-bold text-accent">
                   {results.isRentCheaper ? "Rent saves " : "Buying saves "} 
-                  {formatCurrency(results.rentSavings)}
+                  {formatCurrency(results.costDifference)}
                 </span>
               </div>
             </CardContent>
