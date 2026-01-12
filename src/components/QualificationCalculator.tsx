@@ -14,6 +14,7 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { HelpCircle, Home, DollarSign, TrendingUp, CheckCircle, AlertCircle } from "lucide-react";
+import { PieChart, Pie, Cell, ResponsiveContainer, Legend, Tooltip as RechartsTooltip } from "recharts";
 import CurrencyInput from "./CurrencyInput";
 import { formatCurrency, formatPercent } from "@/lib/formatters";
 
@@ -349,7 +350,7 @@ const QualificationCalculator = () => {
             </CardContent>
           </Card>
 
-          {/* Payment Breakdown */}
+          {/* Payment Breakdown Chart */}
           <Card className="calculator-card">
             <CardHeader className="pb-4">
               <CardTitle className="text-lg font-semibold flex items-center gap-2">
@@ -358,29 +359,51 @@ const QualificationCalculator = () => {
               </CardTitle>
             </CardHeader>
             <CardContent>
-              <div className="space-y-3">
-                <div className="flex justify-between items-center py-2 border-b border-border">
-                  <span className="text-muted-foreground">Principal & Interest</span>
-                  <span className="font-semibold">{formatCurrency(results.monthlyPI)}</span>
-                </div>
-                <div className="flex justify-between items-center py-2 border-b border-border">
-                  <span className="text-muted-foreground">Property Tax</span>
-                  <span className="font-semibold">{formatCurrency(results.monthlyTaxes)}</span>
-                </div>
-                <div className="flex justify-between items-center py-2 border-b border-border">
-                  <span className="text-muted-foreground">Home Insurance</span>
-                  <span className="font-semibold">{formatCurrency(results.monthlyInsurance)}</span>
-                </div>
-                {results.monthlyPMI > 0 && (
-                  <div className="flex justify-between items-center py-2 border-b border-border">
-                    <span className="text-muted-foreground">PMI</span>
-                    <span className="font-semibold">{formatCurrency(results.monthlyPMI)}</span>
-                  </div>
-                )}
-                <div className="flex justify-between items-center py-3 bg-secondary/50 rounded-lg px-3 -mx-3">
-                  <span className="font-medium">Total Housing Payment</span>
-                  <span className="font-bold text-lg text-accent">{formatCurrency(results.totalHousingPayment)}</span>
-                </div>
+              <div className="h-[180px]">
+                <ResponsiveContainer width="100%" height="100%">
+                  <PieChart>
+                    <Pie
+                      data={[
+                        { name: 'Principal & Interest', value: results.monthlyPI, color: 'hsl(var(--primary))' },
+                        { name: 'Property Tax', value: results.monthlyTaxes, color: 'hsl(var(--accent))' },
+                        { name: 'Insurance', value: results.monthlyInsurance, color: 'hsl(var(--muted-foreground))' },
+                        ...(results.monthlyPMI > 0 ? [{ name: 'PMI', value: results.monthlyPMI, color: 'hsl(var(--destructive))' }] : []),
+                      ].filter(item => item.value > 0)}
+                      cx="50%"
+                      cy="50%"
+                      innerRadius={45}
+                      outerRadius={65}
+                      paddingAngle={2}
+                      dataKey="value"
+                    >
+                      {[
+                        { name: 'Principal & Interest', value: results.monthlyPI, color: 'hsl(var(--primary))' },
+                        { name: 'Property Tax', value: results.monthlyTaxes, color: 'hsl(var(--accent))' },
+                        { name: 'Insurance', value: results.monthlyInsurance, color: 'hsl(var(--muted-foreground))' },
+                        ...(results.monthlyPMI > 0 ? [{ name: 'PMI', value: results.monthlyPMI, color: 'hsl(var(--destructive))' }] : []),
+                      ].filter(item => item.value > 0).map((entry, index) => (
+                        <Cell key={`cell-${index}`} fill={entry.color} />
+                      ))}
+                    </Pie>
+                    <RechartsTooltip
+                      formatter={(value: number) => formatCurrency(value)}
+                      contentStyle={{
+                        backgroundColor: 'hsl(var(--card))',
+                        border: '1px solid hsl(var(--border))',
+                        borderRadius: '8px',
+                        fontSize: '12px',
+                      }}
+                    />
+                    <Legend 
+                      wrapperStyle={{ fontSize: '10px' }}
+                      formatter={(value) => <span className="text-foreground">{value}</span>}
+                    />
+                  </PieChart>
+                </ResponsiveContainer>
+              </div>
+              <div className="flex justify-between items-center py-3 bg-secondary/50 rounded-lg px-3 mt-4">
+                <span className="font-medium">Total Housing Payment</span>
+                <span className="font-bold text-lg text-accent">{formatCurrency(results.totalHousingPayment)}</span>
               </div>
             </CardContent>
           </Card>
