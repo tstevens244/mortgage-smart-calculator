@@ -27,9 +27,10 @@ const AI = () => {
       <div className="min-h-screen flex flex-col">
         <Header />
 
-        <main className="flex-1 container px-3 sm:px-4 py-4 sm:py-8">
-          <article>
-            <header className="text-center mb-6 sm:mb-10">
+        <main className="flex-1 container px-3 sm:px-4 py-2 sm:py-8 flex flex-col">
+          <article className="flex flex-col flex-1">
+            {/* Hide header on mobile to prioritize chat */}
+            <header className="text-center mb-3 sm:mb-10 hidden sm:block">
               <h1 className="text-2xl sm:text-3xl lg:text-5xl font-display font-bold text-foreground mb-2 sm:mb-4">
                 AI Mortgage Assistant
               </h1>
@@ -40,7 +41,8 @@ const AI = () => {
 
             <AIChatbot />
 
-            <section className="mt-8 sm:mt-12 prose prose-slate max-w-none px-1">
+            {/* Hide extra content on mobile */}
+            <section className="mt-8 sm:mt-12 prose prose-slate max-w-none px-1 hidden sm:block">
               <h2 className="text-xl sm:text-2xl font-display font-semibold mb-3 sm:mb-4">How Can I Help You?</h2>
               <p className="text-sm sm:text-base text-muted-foreground leading-relaxed">
                 Our AI assistant can guide you to the right mortgage calculator based on your specific needs.

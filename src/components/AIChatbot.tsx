@@ -343,9 +343,9 @@ export default function AIChatbot() {
   };
 
   return (
-    <Card className="calculator-card max-w-3xl mx-auto">
-      <CardContent className="p-0">
-        <ScrollArea className="h-[calc(100vh-320px)] min-h-[350px] max-h-[500px] p-3 sm:p-6">
+    <Card className="calculator-card max-w-3xl mx-auto flex flex-col h-[calc(100dvh-120px)] sm:h-auto sm:max-h-none">
+      <CardContent className="p-0 flex flex-col flex-1 min-h-0">
+        <ScrollArea className="flex-1 min-h-0 sm:h-[500px] p-3 sm:p-6">
           <div className="space-y-3 sm:space-y-4">
             {messages.map((message) => (
               <div
@@ -436,7 +436,7 @@ export default function AIChatbot() {
           </div>
         </ScrollArea>
 
-        <form onSubmit={handleFreeformSubmit} className="border-t p-3 sm:p-4 flex gap-2">
+        <form onSubmit={handleFreeformSubmit} className="border-t p-3 sm:p-4 flex gap-2 flex-shrink-0 bg-card">
           <Input
             value={input}
             onChange={(e) => setInput(e.target.value)}
