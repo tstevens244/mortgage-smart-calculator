@@ -123,10 +123,20 @@ export default function AIChatbot() {
     return newMessage;
   };
 
-  const handleOptionClick = (value: string) => {
-    // Add user's choice as a message
-    const option = messages[messages.length - 1]?.options?.find((o) => o.value === value);
+  const handleOptionClick = (value: string, messageId: string) => {
+    // Find the option that was clicked
+    const targetMessage = messages.find((m) => m.id === messageId);
+    const option = targetMessage?.options?.find((o) => o.value === value);
+    
     if (option) {
+      // Remove options from the message that was clicked
+      setMessages((prev) =>
+        prev.map((m) =>
+          m.id === messageId ? { ...m, options: undefined } : m
+        )
+      );
+      
+      // Add user's choice as a message
       addMessage({ role: "user", content: option.label });
     }
 
@@ -307,7 +317,7 @@ export default function AIChatbot() {
                               variant="outline"
                               size="sm"
                               className="rounded-full hover:bg-primary hover:text-primary-foreground transition-colors"
-                              onClick={() => handleOptionClick(option.value)}
+                              onClick={() => handleOptionClick(option.value, message.id)}
                             >
                               {option.label}
                             </Button>
