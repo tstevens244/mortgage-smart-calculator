@@ -13,6 +13,7 @@ type Message = {
   content: string;
   options?: ChatOption[];
   calculatorLink?: { label: string; href: string };
+  calculatorLinks?: { label: string; href: string }[];
 };
 
 type ChatOption = {
@@ -281,17 +282,50 @@ export default function AIChatbot() {
         return;
       }
 
-      // Add AI response with options to continue
-      addMessage({
-        role: "assistant",
-        content: data.response,
-        options: [
-          { label: "🏠 Explore buying options", value: "buying" },
-          { label: "💰 Learn about refinancing", value: "refinancing" },
-          { label: "💵 Ways to save money", value: "saving" },
-          { label: "📊 View all calculators", value: "all_calculators" },
-        ],
+      // Detect which calculators are mentioned in the AI response
+      const responseText = data.response.toLowerCase();
+      const suggestedCalculators: { label: string; href: string }[] = [];
+      
+      const calculatorMentions: { keywords: string[]; key: keyof typeof calculatorRoutes }[] = [
+        { keywords: ["affordability calculator", "affordability"], key: "affordability" },
+        { keywords: ["mortgage calculator"], key: "mortgage" },
+        { keywords: ["refinance calculator", "refinancing"], key: "refinance" },
+        { keywords: ["rent or buy", "rent vs buy"], key: "rent_or_buy" },
+        { keywords: ["heloc calculator", "home equity line"], key: "heloc" },
+        { keywords: ["second mortgage calculator"], key: "second_mortgage" },
+        { keywords: ["extra payments calculator", "extra payment"], key: "extra_payments" },
+        { keywords: ["bi-weekly", "biweekly"], key: "biweekly" },
+        { keywords: ["qualification calculator", "qualify"], key: "qualification" },
+        { keywords: ["cash-out", "cash out"], key: "cash_out" },
+      ];
+
+      calculatorMentions.forEach(({ keywords, key }) => {
+        if (keywords.some(kw => responseText.includes(kw))) {
+          const calc = calculatorRoutes[key];
+          if (!suggestedCalculators.find(c => c.href === calc.href)) {
+            suggestedCalculators.push({ label: calc.label, href: calc.href });
+          }
+        }
       });
+
+      // Add AI response with calculator links if mentioned
+      if (suggestedCalculators.length > 0) {
+        addMessage({
+          role: "assistant",
+          content: data.response,
+          calculatorLinks: suggestedCalculators,
+        });
+      } else {
+        addMessage({
+          role: "assistant",
+          content: data.response,
+          options: [
+            { label: "🏠 Explore buying options", value: "buying" },
+            { label: "💰 Learn about refinancing", value: "refinancing" },
+            { label: "💵 Ways to save money", value: "saving" },
+          ],
+        });
+      }
     } catch (error) {
       console.error("Chat error:", error);
       setIsTyping(false);
@@ -358,6 +392,19 @@ export default function AIChatbot() {
                             <ArrowRight className="h-4 w-4" />
                           </Button>
                         </Link>
+                      )}
+                      {message.calculatorLinks && (
+                        <div className="flex flex-wrap gap-2">
+                          {message.calculatorLinks.map((calc) => (
+                            <Link key={calc.href} to={calc.href}>
+                              <Button className="gap-2 rounded-full" size="sm">
+                                <Calculator className="h-4 w-4" />
+                                {calc.label}
+                                <ArrowRight className="h-4 w-4" />
+                              </Button>
+                            </Link>
+                          ))}
+                        </div>
                       )}
                     </>
                   ) : (
