@@ -5,7 +5,8 @@ import { Input } from "@/components/ui/input";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Send, Bot, User, Calculator, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
-
+import { supabase } from "@/integrations/supabase/client";
+import { toast } from "sonner";
 type Message = {
   id: string;
   role: "assistant" | "user";
@@ -203,7 +204,7 @@ export default function AIChatbot() {
     }, 500);
   };
 
-  const handleFreeformSubmit = (e: React.FormEvent) => {
+  const handleFreeformSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!input.trim()) return;
 
@@ -212,85 +213,99 @@ export default function AIChatbot() {
     setInput("");
     setIsTyping(true);
 
-    setTimeout(() => {
+    // Check for calculator-specific keywords first
+    const lowerInput = userInput.toLowerCase();
+    
+    const calculatorKeywords: { keywords: string[]; calculator: keyof typeof calculatorRoutes; message: string }[] = [
+      { keywords: ["afford", "how much can i"], calculator: "affordability", message: "Based on your question, the Affordability Calculator would be helpful!" },
+      { keywords: ["refinance", "refi"], calculator: "refinance", message: "The Refinance Calculator can help you compare your options!" },
+      { keywords: ["heloc", "equity line"], calculator: "heloc", message: "The HELOC Calculator will help you explore home equity lines of credit!" },
+      { keywords: ["rent or buy", "renting vs buying", "should i rent"], calculator: "rent_or_buy", message: "The Rent or Buy Calculator can help you decide!" },
+      { keywords: ["monthly payment", "calculate payment"], calculator: "mortgage", message: "The Mortgage Calculator will show you your estimated monthly payment!" },
+      { keywords: ["qualify", "eligible", "can i get"], calculator: "qualification", message: "The Qualification Calculator can help you check your eligibility!" },
+      { keywords: ["extra payment", "additional payment", "pay extra"], calculator: "extra_payments", message: "The Extra Payments Calculator shows how additional payments can save you money!" },
+      { keywords: ["biweekly", "bi-weekly", "every two weeks"], calculator: "biweekly", message: "The Bi-Weekly Payments Calculator can show you potential savings!" },
+      { keywords: ["second mortgage"], calculator: "second_mortgage", message: "The Second Mortgage Calculator can help you explore your options!" },
+      { keywords: ["cash out", "cash-out"], calculator: "cash_out", message: "The Cash-Out Refinance Calculator will help you understand your options!" },
+    ];
+
+    // Check if it's a direct calculator request
+    const matchedCalculator = calculatorKeywords.find(({ keywords }) =>
+      keywords.some(keyword => lowerInput.includes(keyword))
+    );
+
+    if (matchedCalculator) {
+      setIsTyping(false);
+      addMessage({
+        role: "assistant",
+        content: matchedCalculator.message,
+        calculatorLink: calculatorRoutes[matchedCalculator.calculator],
+      });
+      return;
+    }
+
+    // Use AI for general questions
+    try {
+      const { data, error } = await supabase.functions.invoke("mortgage-chat", {
+        body: { message: userInput },
+      });
+
       setIsTyping(false);
 
-      // Simple keyword matching for calculator suggestions
-      const lowerInput = userInput.toLowerCase();
-      
-      if (lowerInput.includes("afford") || lowerInput.includes("how much")) {
+      if (error) {
+        console.error("AI chat error:", error);
+        toast.error("Sorry, I couldn't process your question. Please try again.");
         addMessage({
           role: "assistant",
-          content: "Based on your question, the Affordability Calculator would be helpful!",
-          calculatorLink: calculatorRoutes.affordability,
-        });
-      } else if (lowerInput.includes("refinance") || lowerInput.includes("refi")) {
-        addMessage({
-          role: "assistant",
-          content: "The Refinance Calculator can help you compare your options!",
-          calculatorLink: calculatorRoutes.refinance,
-        });
-      } else if (lowerInput.includes("heloc") || lowerInput.includes("equity line")) {
-        addMessage({
-          role: "assistant",
-          content: "The HELOC Calculator will help you explore home equity lines of credit!",
-          calculatorLink: calculatorRoutes.heloc,
-        });
-      } else if (lowerInput.includes("rent") || lowerInput.includes("buy")) {
-        addMessage({
-          role: "assistant",
-          content: "The Rent or Buy Calculator can help you decide!",
-          calculatorLink: calculatorRoutes.rent_or_buy,
-        });
-      } else if (lowerInput.includes("payment") || lowerInput.includes("monthly")) {
-        addMessage({
-          role: "assistant",
-          content: "The Mortgage Calculator will show you your estimated monthly payment!",
-          calculatorLink: calculatorRoutes.mortgage,
-        });
-      } else if (lowerInput.includes("qualify") || lowerInput.includes("eligible")) {
-        addMessage({
-          role: "assistant",
-          content: "The Qualification Calculator can help you check your eligibility!",
-          calculatorLink: calculatorRoutes.qualification,
-        });
-      } else if (lowerInput.includes("extra") || lowerInput.includes("additional")) {
-        addMessage({
-          role: "assistant",
-          content: "The Extra Payments Calculator shows how additional payments can save you money!",
-          calculatorLink: calculatorRoutes.extra_payments,
-        });
-      } else if (lowerInput.includes("biweekly") || lowerInput.includes("bi-weekly") || lowerInput.includes("every two weeks")) {
-        addMessage({
-          role: "assistant",
-          content: "The Bi-Weekly Payments Calculator can show you potential savings!",
-          calculatorLink: calculatorRoutes.biweekly,
-        });
-      } else if (lowerInput.includes("second mortgage")) {
-        addMessage({
-          role: "assistant",
-          content: "The Second Mortgage Calculator can help you explore your options!",
-          calculatorLink: calculatorRoutes.second_mortgage,
-        });
-      } else if (lowerInput.includes("cash out") || lowerInput.includes("cash-out")) {
-        addMessage({
-          role: "assistant",
-          content: "The Cash-Out Refinance Calculator will help you understand your options!",
-          calculatorLink: calculatorRoutes.cash_out,
-        });
-      } else {
-        // General response with options to restart
-        addMessage({
-          role: "assistant",
-          content: "I'm here to help you find the right mortgage calculator! Let me know what you're trying to figure out, or choose from the options below:",
+          content: "I'm having trouble connecting right now. How about trying one of these options instead?",
           options: [
             { label: "🏠 Buying a new home", value: "buying" },
             { label: "💰 Refinancing my current mortgage", value: "refinancing" },
             { label: "📊 Understanding my options", value: "options" },
           ],
         });
+        return;
       }
-    }, 600);
+
+      if (data?.error) {
+        toast.error(data.error);
+        addMessage({
+          role: "assistant",
+          content: "I'm having trouble connecting right now. How about trying one of these options instead?",
+          options: [
+            { label: "🏠 Buying a new home", value: "buying" },
+            { label: "💰 Refinancing my current mortgage", value: "refinancing" },
+            { label: "📊 Understanding my options", value: "options" },
+          ],
+        });
+        return;
+      }
+
+      // Add AI response with options to continue
+      addMessage({
+        role: "assistant",
+        content: data.response,
+        options: [
+          { label: "🏠 Explore buying options", value: "buying" },
+          { label: "💰 Learn about refinancing", value: "refinancing" },
+          { label: "💵 Ways to save money", value: "saving" },
+          { label: "📊 View all calculators", value: "all_calculators" },
+        ],
+      });
+    } catch (error) {
+      console.error("Chat error:", error);
+      setIsTyping(false);
+      toast.error("Something went wrong. Please try again.");
+      addMessage({
+        role: "assistant",
+        content: "I'm having trouble right now. Would you like to explore our calculators?",
+        options: [
+          { label: "🏠 Buying a new home", value: "buying" },
+          { label: "💰 Refinancing my current mortgage", value: "refinancing" },
+          { label: "📊 Understanding my options", value: "options" },
+        ],
+      });
+    }
   };
 
   return (
