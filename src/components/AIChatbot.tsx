@@ -126,9 +126,9 @@ export default function AIChatbot() {
 
   useEffect(() => {
     if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+      scrollRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
     }
-  }, [messages]);
+  }, [messages, isTyping]);
 
   const addMessage = (message: Omit<Message, "id">) => {
     const newMessage = { ...message, id: Date.now().toString() };
@@ -345,7 +345,7 @@ export default function AIChatbot() {
   return (
     <Card className="calculator-card max-w-3xl mx-auto">
       <CardContent className="p-0">
-        <ScrollArea className="h-[500px] p-6" ref={scrollRef}>
+        <ScrollArea className="h-[500px] p-6">
           <div className="space-y-4">
             {messages.map((message) => (
               <div
@@ -432,6 +432,7 @@ export default function AIChatbot() {
                 </div>
               </div>
             )}
+            <div ref={scrollRef} />
           </div>
         </ScrollArea>
 
