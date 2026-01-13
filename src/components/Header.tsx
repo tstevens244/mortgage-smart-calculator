@@ -1,4 +1,4 @@
-import { Calculator, Menu } from "lucide-react";
+import { Calculator, Menu, Sparkles } from "lucide-react";
 import { Link } from "react-router-dom";
 import {
   Sheet,
@@ -19,6 +19,14 @@ import {
 import { cn } from "@/lib/utils";
 
 const navItems = [
+  {
+    label: "AI",
+    href: "/ai",
+    icon: Sparkles,
+    subItems: [
+      { label: "AI Assistant", href: "/ai" },
+    ],
+  },
   {
     label: "Mortgage",
     href: "/",
