@@ -40,7 +40,7 @@ const initialMessage: Message = {
     { label: "🏠 Buying a new home", value: "buying" },
     { label: "💰 Refinancing my current mortgage", value: "refinancing" },
     { label: "📊 Understanding my options", value: "options" },
-    { label: "❓ I have a different question", value: "other" },
+    { label: "💵 Saving Money", value: "saving" },
   ],
 };
 
@@ -76,6 +76,17 @@ const followUpQuestions: Record<string, Message> = {
       { label: "💳 Extra payments impact", value: "extra_payments" },
       { label: "📅 Bi-weekly payment savings", value: "biweekly" },
       { label: "📈 All calculators overview", value: "all_calculators" },
+    ],
+  },
+  saving: {
+    id: "",
+    role: "assistant",
+    content: "Great! There are several ways to save money on your mortgage. What interests you most?",
+    options: [
+      { label: "💳 Extra payments impact", value: "extra_payments" },
+      { label: "📅 Bi-weekly payment savings", value: "biweekly" },
+      { label: "📉 Refinance to lower rate", value: "lower_payment" },
+      { label: "⏱️ Pay off mortgage faster", value: "pay_faster" },
     ],
   },
 };
