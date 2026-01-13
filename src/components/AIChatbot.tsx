@@ -345,38 +345,38 @@ export default function AIChatbot() {
   return (
     <Card className="calculator-card max-w-3xl mx-auto">
       <CardContent className="p-0">
-        <ScrollArea className="h-[500px] p-6">
-          <div className="space-y-4">
+        <ScrollArea className="h-[calc(100vh-320px)] min-h-[350px] max-h-[500px] p-3 sm:p-6">
+          <div className="space-y-3 sm:space-y-4">
             {messages.map((message) => (
               <div
                 key={message.id}
-                className={`flex gap-3 ${message.role === "user" ? "justify-end" : "justify-start"}`}
+                className={`flex gap-2 sm:gap-3 ${message.role === "user" ? "justify-end" : "justify-start"}`}
               >
                 {message.role === "assistant" && (
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                    <Bot className="h-4 w-4 text-primary" />
+                  <div className="flex-shrink-0 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                    <Bot className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-primary" />
                   </div>
                 )}
                 <div
-                  className={`max-w-[80%] ${
+                  className={`max-w-[85%] sm:max-w-[80%] ${
                     message.role === "user"
-                      ? "bg-primary text-primary-foreground rounded-2xl rounded-tr-sm px-4 py-2"
-                      : "space-y-3"
+                      ? "bg-primary text-primary-foreground rounded-2xl rounded-tr-sm px-3 py-2 sm:px-4"
+                      : "space-y-2 sm:space-y-3"
                   }`}
                 >
                   {message.role === "assistant" ? (
                     <>
-                      <div className="bg-secondary/50 rounded-2xl rounded-tl-sm px-4 py-3">
-                        <p className="text-foreground">{message.content}</p>
+                      <div className="bg-secondary/50 rounded-2xl rounded-tl-sm px-3 py-2 sm:px-4 sm:py-3">
+                        <p className="text-foreground text-sm sm:text-base">{message.content}</p>
                       </div>
                       {message.options && (
-                        <div className="flex flex-wrap gap-2">
+                        <div className="flex flex-col sm:flex-row sm:flex-wrap gap-1.5 sm:gap-2">
                           {message.options.map((option) => (
                             <Button
                               key={option.value}
                               variant="outline"
                               size="sm"
-                              className="rounded-full hover:bg-primary hover:text-primary-foreground transition-colors"
+                              className="rounded-full hover:bg-primary hover:text-primary-foreground transition-colors text-xs sm:text-sm justify-start sm:justify-center"
                               onClick={() => handleOptionClick(option.value, message.id)}
                             >
                               {option.label}
@@ -386,21 +386,21 @@ export default function AIChatbot() {
                       )}
                       {message.calculatorLink && (
                         <Link to={message.calculatorLink.href}>
-                          <Button className="mt-2 gap-2 rounded-full">
-                            <Calculator className="h-4 w-4" />
-                            Go to {message.calculatorLink.label}
-                            <ArrowRight className="h-4 w-4" />
+                          <Button className="gap-1.5 sm:gap-2 rounded-full text-xs sm:text-sm w-full sm:w-auto">
+                            <Calculator className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                            <span className="truncate">Go to {message.calculatorLink.label}</span>
+                            <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 flex-shrink-0" />
                           </Button>
                         </Link>
                       )}
                       {message.calculatorLinks && (
-                        <div className="flex flex-wrap gap-2">
+                        <div className="flex flex-col sm:flex-row sm:flex-wrap gap-1.5 sm:gap-2">
                           {message.calculatorLinks.map((calc) => (
-                            <Link key={calc.href} to={calc.href}>
-                              <Button className="gap-2 rounded-full" size="sm">
-                                <Calculator className="h-4 w-4" />
-                                {calc.label}
-                                <ArrowRight className="h-4 w-4" />
+                            <Link key={calc.href} to={calc.href} className="w-full sm:w-auto">
+                              <Button className="gap-1.5 sm:gap-2 rounded-full text-xs sm:text-sm w-full sm:w-auto" size="sm">
+                                <Calculator className="h-3.5 w-3.5 sm:h-4 sm:w-4" />
+                                <span className="truncate">{calc.label}</span>
+                                <ArrowRight className="h-3.5 w-3.5 sm:h-4 sm:w-4 flex-shrink-0" />
                               </Button>
                             </Link>
                           ))}
@@ -408,22 +408,22 @@ export default function AIChatbot() {
                       )}
                     </>
                   ) : (
-                    <p>{message.content}</p>
+                    <p className="text-sm sm:text-base">{message.content}</p>
                   )}
                 </div>
                 {message.role === "user" && (
-                  <div className="flex-shrink-0 w-8 h-8 rounded-full bg-muted flex items-center justify-center">
-                    <User className="h-4 w-4 text-muted-foreground" />
+                  <div className="flex-shrink-0 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-muted flex items-center justify-center">
+                    <User className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-muted-foreground" />
                   </div>
                 )}
               </div>
             ))}
             {isTyping && (
-              <div className="flex gap-3">
-                <div className="flex-shrink-0 w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center">
-                  <Bot className="h-4 w-4 text-primary" />
+              <div className="flex gap-2 sm:gap-3">
+                <div className="flex-shrink-0 w-7 h-7 sm:w-8 sm:h-8 rounded-full bg-primary/10 flex items-center justify-center">
+                  <Bot className="h-3.5 w-3.5 sm:h-4 sm:w-4 text-primary" />
                 </div>
-                <div className="bg-secondary/50 rounded-2xl rounded-tl-sm px-4 py-3">
+                <div className="bg-secondary/50 rounded-2xl rounded-tl-sm px-3 py-2 sm:px-4 sm:py-3">
                   <div className="flex gap-1">
                     <span className="w-2 h-2 bg-muted-foreground/50 rounded-full animate-bounce" style={{ animationDelay: "0ms" }} />
                     <span className="w-2 h-2 bg-muted-foreground/50 rounded-full animate-bounce" style={{ animationDelay: "150ms" }} />
@@ -436,14 +436,14 @@ export default function AIChatbot() {
           </div>
         </ScrollArea>
 
-        <form onSubmit={handleFreeformSubmit} className="border-t p-4 flex gap-2">
+        <form onSubmit={handleFreeformSubmit} className="border-t p-3 sm:p-4 flex gap-2">
           <Input
             value={input}
             onChange={(e) => setInput(e.target.value)}
-            placeholder="Type your mortgage question..."
-            className="flex-1 rounded-full"
+            placeholder="Type your question..."
+            className="flex-1 rounded-full text-sm sm:text-base"
           />
-          <Button type="submit" size="icon" className="rounded-full" disabled={!input.trim()}>
+          <Button type="submit" size="icon" className="rounded-full h-9 w-9 sm:h-10 sm:w-10 flex-shrink-0" disabled={!input.trim()}>
             <Send className="h-4 w-4" />
           </Button>
         </form>
