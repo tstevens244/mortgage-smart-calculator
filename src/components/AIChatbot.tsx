@@ -345,7 +345,7 @@ export default function AIChatbot() {
   return (
     <Card className="calculator-card max-w-4xl mx-auto flex flex-col h-[calc(100dvh-120px)] sm:h-auto sm:max-h-none">
       <CardContent className="p-0 flex flex-col flex-1 min-h-0">
-        <ScrollArea className="flex-1 min-h-0 sm:h-[600px] p-3 sm:p-6">
+        <ScrollArea className="flex-1 min-h-0 sm:h-[800px] p-3 sm:p-6">
           <div className="space-y-3 sm:space-y-4">
             {messages.map((message) => (
               <div
