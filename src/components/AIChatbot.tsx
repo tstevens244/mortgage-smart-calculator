@@ -123,12 +123,24 @@ export default function AIChatbot() {
   const [input, setInput] = useState("");
   const [isTyping, setIsTyping] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const formRef = useRef<HTMLFormElement>(null);
 
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
     }
   }, [messages, isTyping]);
+
+  // Handle mobile keyboard - scroll input into view
+  const handleInputFocus = () => {
+    // Small delay to let keyboard appear
+    setTimeout(() => {
+      if (formRef.current) {
+        formRef.current.scrollIntoView({ behavior: "smooth", block: "end" });
+      }
+    }, 300);
+  };
 
   const addMessage = (message: Omit<Message, "id">) => {
     const newMessage = { ...message, id: Date.now().toString() };
@@ -436,10 +448,12 @@ export default function AIChatbot() {
           </div>
         </ScrollArea>
 
-        <form onSubmit={handleFreeformSubmit} className="border-t p-3 sm:p-4 flex gap-2 flex-shrink-0 bg-card">
+        <form ref={formRef} onSubmit={handleFreeformSubmit} className="border-t p-3 sm:p-4 flex gap-2 flex-shrink-0 bg-card">
           <Input
+            ref={inputRef}
             value={input}
             onChange={(e) => setInput(e.target.value)}
+            onFocus={handleInputFocus}
             placeholder="Type your question..."
             className="flex-1 rounded-full text-sm sm:text-base"
           />
