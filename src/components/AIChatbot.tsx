@@ -343,7 +343,7 @@ export default function AIChatbot() {
   };
 
   return (
-    <Card className="calculator-card max-w-4xl mx-auto flex flex-col h-[calc(100dvh-120px)] sm:h-[850px]">
+    <Card className="calculator-card max-w-4xl mx-auto flex flex-col h-[calc(100dvh-120px)] sm:h-[500px]">
       <CardContent className="p-0 flex flex-col flex-1 min-h-0">
         <ScrollArea className="flex-1 min-h-0 p-3 sm:p-6">
           <div className="space-y-3 sm:space-y-4">
